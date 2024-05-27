@@ -107,7 +107,7 @@ theme: cactus # https://github.com/probberechts/hexo-theme-cactus.git
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/<your-username>/<your-repo>.git  # 目标公开仓库
+  repo: https://github.com/Samge0/samge-blog.git  # 目标仓库
   branch: gh-pages  # 部署到 gh-pages 分支
 
 theme_config:
