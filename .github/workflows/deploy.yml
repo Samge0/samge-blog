@@ -3,7 +3,7 @@ name: Deploy Hexo site to GitHub Pages
 on:
   push:
     branches:
-      - gh-pages
+      - release
 
   # Allows you to run this workflow manually from the Actions tab
   # 可以手动触发
@@ -27,7 +27,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # 使用合适的 Node.js 版本
+        node-version: '20'  # 使用合适的 Node.js 版本
 
     - name: Install dependencies
       run: npm install
