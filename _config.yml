@@ -141,11 +141,11 @@ theme_config:
     -
       icon: mastodon
       label: mastodon.social
-      link: https://mastodon.social/@alice
+      link: https://mastodon.social/@samge720
     -
       icon: mastodon
       label: fosstodon.org
-      link: https://fosstodon.org/@alice
+      link: https://mastodon.social/@samge720
     
   posts_overview:
     show_all_posts: false

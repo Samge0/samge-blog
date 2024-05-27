@@ -1,12 +1,17 @@
 [
     {
-       "name":"Hexo",
-       "url":"https://hexo.io/",
-       "desc":"A fast, simple & powerful blog framework"
+       "name":"vscode-samge-translate",
+       "url":"https://github.com/Samge0/vscode-samge-translate",
+       "desc":"Vscode Samge Translate 翻译助手：Quickly translate text right in your code 🚀 支持多种翻译命令（英译中、中译英、中文转多规则命名变量等），支持多种结果展示方式，支持配置百度翻译引擎。"
     },
     {
-       "name":"Font Awesome",
-       "url":"http://fontawesome.io/",
-       "desc":"The iconic font and CSS toolkit"
+       "name":"apk-copilot",
+       "url":"https://github.com/Samge0/apk-copilot",
+       "desc":"一个简易的ApkCopilot 多渠道打包&签名 + gradio操作界面。"
+    },
+    {
+       "name":"paddleocr",
+       "url":"https://github.com/Samge0/paddleocr",
+       "desc":"一个简易的ocr识别图片中数字的api接口 + 简易的token校验。"
     }
 ]
