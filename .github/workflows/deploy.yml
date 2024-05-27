@@ -32,12 +32,6 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Clone Hexo theme and install theme dependencies
-      run: |
-        git clone https://github.com/probberechts/hexo-theme-cactus.git themes/cactus
-        cd themes/cactus
-        npm install
-
     - name: Build Hexo
       run: npm run build
 
