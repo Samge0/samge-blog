@@ -106,9 +106,10 @@ theme: cactus # https://github.com/probberechts/hexo-theme-cactus.git
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: git
-  repo: https://github.com/Samge0/samge-blog.git  # 目标仓库
-  branch: gh-pages  # 部署到 gh-pages 分支
+  type: ""
+  # type: git
+  # repo: https://github.com/Samge0/samge-blog.git  # 目标仓库
+  # branch: gh-pages  # 部署到 gh-pages 分支
 
 theme_config:
   colorscheme: white  # dark | light | white
