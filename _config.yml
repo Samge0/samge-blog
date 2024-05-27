@@ -3,18 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: en
-timezone: ''
+title: Samge Blog
+subtitle: 'Samge Blog Subtitle'
+description: 'Samge Blog Description'
+keywords: Samge,Blog
+author: Samge
+language: zh-CN
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://samge0.github.io/samge-blog/
-root: /samge-blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
