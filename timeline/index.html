@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="零碎事件记录   2024-05-31：使用YOLO8训练一个识别水印的模型（yolo8-watermark-brand） 2024-05-29：首次本地运行了ChatTTS + 初步运行了ros2的gazebo仿真器。 2024-05-28：安装docker版ros2。 2024-05-27：主要发布比较正式的github pages+迁移samgeai.com域名并绑定github page">
+<meta property="og:type" content="website">
+<meta property="og:title" content="零碎事件记录">
+<meta property="og:url" content="https://blog.samgeai.com/timeline/index.html">
+<meta property="og:site_name" content="Samge Blog">
+<meta property="og:description" content="零碎事件记录   2024-05-31：使用YOLO8训练一个识别水印的模型（yolo8-watermark-brand） 2024-05-29：首次本地运行了ChatTTS + 初步运行了ros2的gazebo仿真器。 2024-05-28：安装docker版ros2。 2024-05-27：主要发布比较正式的github pages+迁移samgeai.com域名并绑定github page">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-31T07:05:42.000Z">
+<meta property="article:modified_time" content="2024-05-31T07:29:55.482Z">
+<meta property="article:author" content="Samge">
+<meta property="article:tag" content="Samge,Blog">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>零碎事件记录</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index py4 ">
+        
+          <header id="header">
+  <a class="u-url u-uid" href="/">
+  
+    
+      <img id="logo" alt class="u-logo" src="/images/logo.png" />
+    
+  
+    <div id="title">
+      <h1 class="p-name">Samge Blog</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="目录"><i class="fa-solid fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">首页</a></li><!--
+   --><!--
+     --><li><a href="/about/">关于</a></li><!--
+   --><!--
+     --><li><a href="/archives/">归档</a></li><!--
+   --><!--
+     --><li><a href="/search/">搜索</a></li><!--
+   --><!--
+     --><li><a href="/timeline/">事件</a></li><!--
+   --><!--
+     --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+
+  <div class="content" itemprop="articleBody">
+      
+          <blockquote>
+<p>零碎事件记录</p>
+</blockquote>
+<ul>
+<li>2024-05-31：使用YOLO8训练一个识别水印的模型（<a target="_blank" rel="noopener" href="https://github.com/Samge0/yolo8-watermark-brand">yolo8-watermark-brand</a>）</li>
+<li>2024-05-29：首次本地运行了ChatTTS + 初步运行了ros2的gazebo仿真器。</li>
+<li>2024-05-28：安装docker版ros2。</li>
+<li>2024-05-27：主要发布比较正式的github pages+迁移samgeai.com域名并绑定github pages。</li>
+<li>2024-05-23：新增爬虫别名配置的导出脚本+爬虫别名的批量上传更新功能。</li>
+<li>2024-05-13：首次打包并发布了pypi的pip安装包：samge-fork-scrapyd.</li>
+<li>2024-05-11：成功将fastgpt的版本从v4.6.3迁移到v4.8 + 升级one-api到最新版本。</li>
+<li>2024-05-10：添加ii函数咩的个人信息到github私有库并集成到fastgpt中构建私有模型应用 + 整理并测试comfyui的api并上传到github。</li>
+<li>2024-05-09：进一步熟悉bootstrap并改造xx站点的注册登录页面交互跟兑换码的交互。</li>
+<li>2024-05-08：完善vscode翻译插件的功能，保留多行翻译展示 + 增加（替换&#x2F;在文后追加）</li>
+<li>2024-04-29：02:22完成了xx功能新增：api接口的加密解密 + js的加密解密，强化接口的破解难度 + 抽取xx中onclick的js函数为根据id绑定点击事件，避免js混淆后无法识别 + 将paddleocr封装为api调用。</li>
+<li>2024-04-28：成功使用paddleocr完成图片中电话号码提取。</li>
+<li>2024-04-24：抽取科技快讯的抓取到爬虫框架。</li>
+<li>2024-04-22：成功用go的开源库完成获取验证码前的图形验证码功能。首次使用开源的小红书爬虫，抓取小红书内容。</li>
+<li>2024-04-16：完善xx的注册功能（加入邮箱验证码）+加深对redis的使用认识。</li>
+<li>2024-04-11：首次用go对接minio的开源oss功能.</li>
+<li>2024-04-09：首次使用ddg执行go gin的模板开发 + 首次使用portainet-agent管理多台机子上的docker资源。</li>
+<li>2024-04-04：首次完成upwork的个人认证，并提交第一个upword的提案。</li>
+<li>2024-03-31：首次打通独角数卡+易支付的个人支付通道（微信+支付宝+qq）。</li>
+<li>2024-03-28：首次部署个人支付发卡平台-独角数卡，为后续打通个人支付闭环作准备 + 首次使用hexo+github pages部署静态站点。</li>
+<li>2024-03-22：完成xx的数据抓取+真实下载链接的抓取，为xx付费下载功能添砖加瓦。</li>
+<li>2024-03-19：对java的maven仓库pom.xml依赖管理有了进一步的认识。</li>
+<li>2024-03-18：今天完成了xx下载站的链接解析功能+界面构建。</li>
+<li>2024-03-17：首次使用音乐高潮部分提取功能+将该功能应用到数字人生成上面。</li>
+<li>2024-03-14：首次使用spleeter进行音频的人声分离+使用whisper进行音频的字幕提取，二者都对接到自己的api接口中，形成阶段性的一块奠基石。</li>
+<li>2024-03-13：首次根据抖音分享信息自动解析并下载音视频+驱动数字人合成。</li>
+<li>2024-03-09：首次使用flv完成在http端进行视频拉流播放。</li>
+<li>2024-03-06：首次使用视频推流功能，初步完成OBS推流，http推流还需要调试。</li>
+<li>2024-03-05：数字人对接GPT-Sovits的克隆音色+初步在app端对接数字人接口。</li>
+<li>2024-03-04：成功安装GPT-Sovits的环境依赖并成功进行训练+推理，初步感觉推理速度跟效果挺不错。</li>
+<li>2024-03-03：完成数字人训练的一键脚本，方便后续快速训练数字人。</li>
+<li>2024-02-28：初步完成数字人推理的api接口，后续对接其他的接口完成功能整合闭环。</li>
+<li>2024-02-27：将之前的数字人训练跟推理代码整理抽离重构，后续可以整成api使用了.</li>
+<li>2024-02-23：因再次遇到conda的envs环境损坏提示不支持的16位程序问题，改用docker容器方式进行映射开发调试，这应该会逐步成为后续的开发主方向。</li>
+<li>2024-02-19：首次使用安卓的jetpack compose构建布局。</li>
+<li>2024-02-18：增加docker中指定字体的经验 + 将今日科技快讯的本地部署功能完善并打包到可用的docker镜像中，后续部署到远程服务器。首次使用python工具，将视频的不同场景进行切分。虽然有的场景还是存在粘黏，但符合自己的工具库需求。</li>
+<li>2024-02-08：修复app对接视频接口的checkbox错乱问题+增加新数字人的训练+app视频下载并自动复制文案 + 更换ubuntu的网卡驱动，修复无法识别有线网卡的问题。</li>
+<li>2024-02-07：回家过年前的凌晨，在凌晨4点终于完成app跟接口的对接，由app获取今日科技快讯列表，然后自主选择生成视频，在手机端下载视频并复制文案。这可以让我在回家的假期里，即使脱离电脑，也能完成视频的发布任务。</li>
+<li>2024-02-04：更新1年前写的微信机器人代码，那时候由于被封号就没碰了，今天又重新挂上号并搭配内网部署的大模型，主要用来接收消息而不是发消息。</li>
+<li>2024-02-03：更新vscode翻译插件代码，增加短词快捷翻译功能，即没选中文本的情况下快速翻译光标左侧连续中文文本。</li>
+<li>2024-02-01：初步完成modnet的图片&#x2F;视频抠图的api，实现上传文件或base64完成抠图后返回限时下载的url链接。同时实现了建议的task模式，提交任务后立即返回taskid，后台定时任务对待处理任务进行调度并修改状态。另外，初步使用vscode完成文件上次的的接口调试，感觉使用vscode调试接口挺方便的 + 使用vscode的launch.json构建fastjson的debug断点调试配置，对vscode 断点调试有进一步的认识。</li>
+<li>2024-01-31：完成panddle api的开发，功能有多文转音频、合并、音频链接下载&#x2F;base64。</li>
+<li>2024-01-30：完成百度飞桨paddle的docker镜像制作（cpu+gpu），目前对pytorch、百度飞桨、魔塔社区模型都有了比较熟地环境搭建及推理能力，后续可能再学习一下tf跟yoyo。另外，今天也使用paddlespeech完成tts的服务端跟客户端互联，并测试了流式音频的生成，边生成边播放，为后续的直播或机器人及时交流项目做准备。其实想要构建一个即时对话机器人，可以即时沟通，记录我的内容，还可以学习英语等。</li>
+<li>2024-01-29：vscode插件成功完成了百度、阿里、火山、有道、腾讯、deepl这六家翻译引擎的集成。</li>
+<li>2024-01-27：08:19，首次制作vscode插件并成功发布第一个vscode插件到官方插件商店：Vscode Samge Translate 翻译助手。之所以开发并发布这个，是因为没有符合自己需求的插件，于是搭配gpt，一天从0到1完成插件开发，对vscode的熟练度又增加了一些。</li>
+<li>2024-01-25：初步完成从接口获取资讯》筛选科技类型资讯》文本生成图片》图片+音频生成</li>
+</ul>
+
+        
+  </div>
+</article>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    Samge
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/timeline/">事件</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
