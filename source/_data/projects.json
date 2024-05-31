@@ -13,5 +13,10 @@
        "name":"paddleocr",
        "url":"https://github.com/Samge0/paddleocr",
        "desc":"一个简易的ocr识别图片中数字的api接口 + 简易的token校验。"
+    },
+    {
+       "name":"yolo8-watermark-brand",
+       "url":"https://github.com/Samge0/yolo8-watermark-brand",
+       "desc":"使用labelImg对水印位置进行标注，ultralytics-YOLO8对水印位置进行模型训练&检测。"
     }
 ]

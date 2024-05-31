@@ -123,6 +123,7 @@ theme_config:
     about: /about/
     articles: /archives/
     search: /search/
+    事件: timeline/
     projects: https://github.com/Samge0
 
   social_links:
