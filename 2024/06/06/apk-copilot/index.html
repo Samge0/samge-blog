@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前言一个简易的ApkCopilot 多渠道打包&amp;签名 + gradio操作界面。Github&gt;&gt;360加固的多渠道打包+签名功能收费了，这是多渠道打包+签名的替代方案，只需要上传加固后的apk即可自动签名&amp;打多渠道包。本项目使用walle进行多渠道打包，需要在安卓项目中配置walle。 版本信息（这里只是列出开发已知可行版本，其他版本需要使用这自己探索）  java：j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ApkCopilot 多渠道打包&amp;签名">
+<meta property="og:url" content="https://blog.samgeai.com/2024/06/06/apk-copilot/index.html">
+<meta property="og:site_name" content="Samge Blog">
+<meta property="og:description" content="前言一个简易的ApkCopilot 多渠道打包&amp;签名 + gradio操作界面。Github&gt;&gt;360加固的多渠道打包+签名功能收费了，这是多渠道打包+签名的替代方案，只需要上传加固后的apk即可自动签名&amp;打多渠道包。本项目使用walle进行多渠道打包，需要在安卓项目中配置walle。 版本信息（这里只是列出开发已知可行版本，其他版本需要使用这自己探索）  java：j">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/Samge0/apk-copilot/raw/main/res/screenshot/%E4%B8%80%E9%94%AE%E6%89%93%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8C%85&%E7%AD%BE%E5%90%8D.png">
+<meta property="og:image" content="https://github.com/Samge0/apk-copilot/raw/main/res/screenshot/%E5%AF%86%E9%92%A5%E9%85%8D%E7%BD%AE.jpg">
+<meta property="og:image" content="https://github.com/Samge0/apk-copilot/raw/main/res/screenshot/%E6%B8%A0%E9%81%93%E9%85%8D%E7%BD%AE.png">
+<meta property="article:published_time" content="2024-06-06T08:51:13.000Z">
+<meta property="article:modified_time" content="2024-06-06T09:11:09.538Z">
+<meta property="article:author" content="Samge">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="ApkCopilot">
+<meta property="article:tag" content="多渠道打包">
+<meta property="article:tag" content="apk签名">
+<meta property="article:tag" content="360加固">
+<meta property="article:tag" content="samge">
+<meta property="article:tag" content="tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/Samge0/apk-copilot/raw/main/res/screenshot/%E4%B8%80%E9%94%AE%E6%89%93%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8C%85&%E7%AD%BE%E5%90%8D.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>ApkCopilot 多渠道打包&amp;签名</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/timeline/">事件</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/06/06/yolo8-watermark-brand/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/06/06/vscode-samge-translate/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.samgeai.com/2024/06/06/apk-copilot/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&text=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&is_video=false&description=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ApkCopilot 多渠道打包&amp;签名&body=Check out this article: https://blog.samgeai.com/2024/06/06/apk-copilot/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&name=ApkCopilot 多渠道打包&amp;签名&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.samgeai.com/2024/06/06/apk-copilot/&t=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">2.</span> <span class="toc-text">版本信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker%E6%96%B9%E5%BC%8F%E8%BF%90%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">docker方式运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%BA%90%E7%A0%81%E8%BF%90%E8%A1%8C"><span class="toc-number">4.</span> <span class="toc-text">本地源码运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%88%AA%E5%9B%BE"><span class="toc-number">5.</span> <span class="toc-text">相关截图</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        ApkCopilot 多渠道打包&amp;签名
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Samge</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-06-06T08:51:13.000Z" class="dt-published" itemprop="datePublished">2024-06-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/360%E5%8A%A0%E5%9B%BA/" rel="tag">360加固</a>, <a class="p-category" href="/tags/Android/" rel="tag">Android</a>, <a class="p-category" href="/tags/ApkCopilot/" rel="tag">ApkCopilot</a>, <a class="p-category" href="/tags/apk%E7%AD%BE%E5%90%8D/" rel="tag">apk签名</a>, <a class="p-category" href="/tags/samge/" rel="tag">samge</a>, <a class="p-category" href="/tags/tools/" rel="tag">tools</a>, <a class="p-category" href="/tags/%E5%A4%9A%E6%B8%A0%E9%81%93%E6%89%93%E5%8C%85/" rel="tag">多渠道打包</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一个简易的ApkCopilot 多渠道打包&amp;签名 + gradio操作界面。<a target="_blank" rel="noopener" href="https://github.com/Samge0/apk-copilot">Github&gt;&gt;</a><br><br>360加固的<code>多渠道打包+签名</code>功能收费了，这是<code>多渠道打包+签名</code>的替代方案，只需要<code>上传加固后的apk</code>即可自动签名&amp;打多渠道包。<br><br>本项目使用<code>walle</code>进行多渠道打包，需要在安卓项目中配置<a target="_blank" rel="noopener" href="https://github.com/Meituan-Dianping/walle">walle</a>。</p>
+<h2 id="版本信息"><a href="#版本信息" class="headerlink" title="版本信息"></a>版本信息</h2><p>（这里只是列出开发已知可行版本，其他版本需要使用这自己探索）</p>
+<ul>
+<li>java：<code>java version &quot;17.0.2</code>，<a target="_blank" rel="noopener" href="https://jdk.java.net/archive/">下载地址&gt;&gt;</a></li>
+<li>python：<code>Python 3.10</code>，<a target="_blank" rel="noopener" href="https://www.python.org/downloads/">下载地址&gt;&gt;</a></li>
+<li>build-tools：<code>33.0.0</code>，<a target="_blank" rel="noopener" href="https://androidsdkmanager.azurewebsites.net/Buildtools">下载地址&gt;&gt;</a></li>
+</ul>
+<h2 id="docker方式运行"><a href="#docker方式运行" class="headerlink" title="docker方式运行"></a>docker方式运行</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name apk-copilot \</span><br><span class="line">-p 7860:7860 \</span><br><span class="line">-e APK_COPILOT_AUTH=&quot;user1:pw1|user2:pw2&quot; \</span><br><span class="line">-v ~/user_configs:/app/res/user_configs \</span><br><span class="line">--pull=always \</span><br><span class="line">--restart always \</span><br><span class="line">--memory=1.0G \</span><br><span class="line">samge/apk-copilot:latest</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="本地源码运行"><a href="#本地源码运行" class="headerlink" title="本地源码运行"></a>本地源码运行</h2><ul>
+<li><p>安装依赖<br>先按<code>版本信息</code>配置本地环境，然后创建python的env环境，安装python依赖：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>复制配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp config.dev.json config.json</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -R 本地路径xxx/build-tools/31.0.0 res/build-tools/31.0.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行</p>
+<blockquote>
+<p>gradio界面</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uvicorn app:app --reload --host 0.0.0.0 --port 7860</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="相关截图"><a href="#相关截图" class="headerlink" title="相关截图"></a>相关截图</h2><p><img src="https://github.com/Samge0/apk-copilot/raw/main/res/screenshot/%E4%B8%80%E9%94%AE%E6%89%93%E5%A4%9A%E6%B8%A0%E9%81%93%E5%8C%85&%E7%AD%BE%E5%90%8D.png" alt="一键打多渠道包&amp;签名"><br><img src="https://github.com/Samge0/apk-copilot/raw/main/res/screenshot/%E5%AF%86%E9%92%A5%E9%85%8D%E7%BD%AE.jpg" alt="密钥配置"><br><img src="https://github.com/Samge0/apk-copilot/raw/main/res/screenshot/%E6%B8%A0%E9%81%93%E9%85%8D%E7%BD%AE.png" alt="渠道配置"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+          <li><a href="/timeline/">事件</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">2.</span> <span class="toc-text">版本信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker%E6%96%B9%E5%BC%8F%E8%BF%90%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">docker方式运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%BA%90%E7%A0%81%E8%BF%90%E8%A1%8C"><span class="toc-number">4.</span> <span class="toc-text">本地源码运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%88%AA%E5%9B%BE"><span class="toc-number">5.</span> <span class="toc-text">相关截图</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.samgeai.com/2024/06/06/apk-copilot/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&text=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&is_video=false&description=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ApkCopilot 多渠道打包&amp;签名&body=Check out this article: https://blog.samgeai.com/2024/06/06/apk-copilot/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&title=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.samgeai.com/2024/06/06/apk-copilot/&name=ApkCopilot 多渠道打包&amp;签名&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.samgeai.com/2024/06/06/apk-copilot/&t=ApkCopilot 多渠道打包&amp;签名"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    Samge
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/timeline/">事件</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
