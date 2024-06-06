@@ -5,7 +5,9 @@ date: 2024-05-31 15:05:42
 
 > 零碎事件记录
 
-- 2024-05-31：使用YOLO8训练一个识别水印的模型（[yolo8-watermark-brand](https://github.com/Samge0/yolo8-watermark-brand)）
+- 2024-05-31：
+    - 使用YOLO8训练一个识别水印的模型（[yolo8-watermark-brand](https://github.com/Samge0/yolo8-watermark-brand)）；
+    - 创建一个自动移除水印的Demo：[yolo8-plus-iopaint](https://github.com/Samge0/yolo8-plus-iopaint)，使用`YOLO8`+`IOPaint`搭配使用，由`YOLO8`自动定位水印位置，然后使用`IOPaint`移除水印。
 - 2024-05-29：首次本地运行了ChatTTS + 初步运行了ros2的gazebo仿真器。
 - 2024-05-28：安装docker版ros2。
 - 2024-05-27：主要发布比较正式的github pages+迁移samgeai.com域名并绑定github pages。
