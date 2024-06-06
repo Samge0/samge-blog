@@ -8,6 +8,7 @@ tags:
     - train
     - models
     - labelImg
+    - demo
 ---
 
 
