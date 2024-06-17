@@ -9,7 +9,7 @@ tags:
     - 子网冲突
 ---
 
-> 【省流】：删除 Docker 创建的冲突桥接网络，解决容器无法 ping 通宿主机的问题。
+> 【省流提示】：以下内容作用不大，仅属于作者个人的踩坑记录，请忽略。
 
 
 ## 前言
@@ -17,7 +17,6 @@ tags:
 windows下的docker用得好好的，但突然有一天docker容器无法访问宿主机中的代理，进入容器发现无法ping通宿主机。（我只是个小呆瓜，我也很懵啊）
 ![image](https://github.com/Samge0/samge-blog/assets/17336101/293ab6c5-d899-4581-97ee-e321e9572395)
 
-经过重重排查，发现是wsl2中的网络配置问题，这里简单记录一下。
 
 
 ## 处理过程>>>
@@ -60,7 +59,7 @@ windows下的docker用得好好的，但突然有一天docker容器无法访问�
 
 NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO^10086
 
-测试了其他docker容器，发现还是无法ping通，所以上面解决方案是错误的（事后诸葛亮，留下没有技术的泪水(̂ ˃̥̥̥ ˑ̫ ˂̥̥̥ )̂……洪湖水啊……）。
+测试了其他docker容器，发现还是无法ping通，所以上面解决方案是错误的（留下没有技术的泪水(̂ ˃̥̥̥ ˑ̫ ˂̥̥̥ )̂……洪湖水啊……）。
 
 ![image](https://github.com/Samge0/samge-blog/assets/17336101/a797c956-8cdb-4001-96f1-7361a497f025)
 
@@ -70,7 +69,6 @@ NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO!NO
 
 以下是其中一个`.devcontainer/docker-compose.yml`的配置。
 ```yaml
-docker配置：
 version: '3.8'
 services:
   storydiffusion:
@@ -119,6 +117,75 @@ services:
 
 ![image](https://github.com/Samge0/samge-blog/assets/17336101/a797c956-8cdb-4001-96f1-7361a497f025)
 
+
+### 6、小结
+
+其实上面的`.devcontainer/docker-compose.yml`配置，没有明确配置docker的网络，启动时会创建一个新的docker桥接网络。这里建议还是主动指定容器的网络，尽可能的避免奇怪（这里的奇怪仅对于我这样的小白而言）的问题发生。
+
+没指定网络的情况：
+![image](https://github.com/Samge0/samge-blog/assets/17336101/b886082e-1e2d-409b-83be-6633d3a0f4e9)
+
+指定网络的情况：
+![image](https://github.com/Samge0/samge-blog/assets/17336101/1f55ed21-5801-4aa7-9a5f-46a9288d68f8)
+
+如何配置指定的网络？只需要在`.devcontainer/docker-compose.yml`中增加`network_mode: bridge`即可，默认会自动配置到名称为`bridge`的网络下。
+
+如果需要配置其他网络，则需要手动创建，并指定网络名称，例如这里创建一个名为`vscode_devcontainer`的网络：。
+
+- 创建网络
+  ```shell
+  docker network create vscode_devcontainer
+  ```
+
+- 配置`.devcontainer/docker-compose.yml`
+  ```yaml
+  version: '3.8'
+  services:
+    storydiffusion:
+      build: 
+        context: ..
+        dockerfile: .devcontainer/Dockerfile-dev
+        args:
+          PROXY: http://192.168.50.48:7890
+      volumes:
+        - ..:/app    
+        - F:/.cache:/root/.cache    
+      command: sleep infinity
+      restart: unless-stopped
+      environment:
+        NVIDIA_VISIBLE_DEVICES: 0
+        XXXX_DEMO: XXXX_DEMO
+      deploy:
+        resources:
+          reservations:
+            devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+      network_mode: bridge
+      networks:
+        - vscode_devcontainer
+      shm_size: 22g
+      ports:
+        - "0.0.0.0:7860:7860"
+  ```
+
+- 修改`.devcontainer/devcontainer.json`
+  ```json
+  {
+      "name": "storydiffusion",
+      "dockerComposeFile": "docker-compose.yml",
+      "service": "storydiffusion",
+      "workspaceFolder": "/app",
+      "extensions": [
+          "ms-python.python",
+          "ms-python.debugpy",
+          "humao.rest-client",
+          "samge.vscode-samge-translate"
+      ],
+      "network": "vscode_devcontainer"
+  }
+  ```
 
 ## 其他说明>>>
 ### 1、参考文章
