@@ -166,3 +166,23 @@ theme_config:
   copyright:
     start_year: 2024
     end_year:
+
+  disqus:
+    enabled: false
+    shortname: cactus-1
+  utterances:
+    enabled: true
+    repo: Samge0/samge-blog
+    issue_term: pathname
+    label: Comment
+    theme: github-light
+
+  # Fill in your Google Analytics tracking ID to enable Google Analytics.
+  google_analytics:
+    enabled: true
+    id: G-EWRHT0FSTE
+
+  # Fill in your Baidu Analytics tracking ID to enable Baidu Analytics.
+  baidu_analytics:
+    enabled: true
+    id: 4196a9020a4dba979eb19815c8ec9924
