@@ -112,6 +112,16 @@ deploy:
   # repo: https://github.com/Samge0/samge-blog.git  # 目标仓库
   # branch: gh-pages  # 部署到 gh-pages 分支
 
+# Add google analytics configuration
+googleAnalytics:
+  enable: true
+  id: G-EWRHT0FSTE
+
+# Add baidu analytics configuration
+baiduAnalytics:
+  enable: true
+  id: 4196a9020a4dba979eb19815c8ec9924
+
 theme_config:
   colorscheme: white  # dark | light | white
 
