@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>注册并激活Wise账户</title>
+      <link href="/2024/06/19/register-wise/"/>
+      <url>/2024/06/19/register-wise/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前注册 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 遇到无法使用国内外币卡入金激活账户的问题，最近刚好开了新加坡华侨银行OCBC卡，便改用 OCBC 入金 30 新币（SGD）激活 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户。</p><h2 id="整体流程（耗时4天）"><a href="#整体流程（耗时4天）" class="headerlink" title="整体流程（耗时4天）"></a>整体流程（耗时4天）</h2><p>实际大部分人都是当天注册就能激活，这里耗时这么久是我自己踩坑了。</p><ul><li>20240615 PC端使用护照注册 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户并使用 OCBC 卡扫二维码入金 30SGD，刚好是周六，提示要到18号才能审核完毕</li><li>20240618 依旧提示审核中，邮件联系客服，咨询进度，得到的回复是需要耐心等待</li><li>20240619 尝试改用绑卡的方式，输入 OCBC 卡号、日期、CVV，再次入金 30SGD，这次居然几分钟就审核完毕并成功激活 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户，之前那笔扫码入金的钱也立即到账了。</li></ul><h2 id="Wise-是什么"><a href="#Wise-是什么" class="headerlink" title="Wise 是什么"></a><a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 是什么</h2><p><a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 是什么？<a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 是一个跨境汇款工具，主要的功能就是用来汇款的，它的汇款汇率非常低；当然 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 也提供外币账户，如「美元账户」、「欧元账户」、「新加坡元账户」、「英镑账户」等。虽然 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 不提供港币账户和人民币账户，但是可以通过 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 把外币兑换成「人民币」提现到中国大陆的【支付宝、微信、银联卡】；也可以通过 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 把外币兑换成「港币」提现到你的香港银行卡。</p><p><a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 虽然提供外币账户，但它不是银行，无法把它当成银行来使用，它的主要功能是汇款，不建议把大资金放在 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 的外币账户。</p><h2 id="Wise-有什么用"><a href="#Wise-有什么用" class="headerlink" title="Wise 有什么用"></a><a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 有什么用</h2><p><a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 的用处非常多，被很多人称为「汇款神器」。如果你只是把它当成汇款工具，其实是把它想简单了，因为它还有别的用处。</p><p>那到底 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a>有什么用呢？<a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 可以用在以下几个方面：</p><ul><li>资金中转：资金到 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 后，可以换成人民币资金回国，可以换成港币到香港账户，可以换成新加坡币到新加坡华侨银行账户（OCBC）等等</li><li>入金美股券商：可以直接用美元、英镑、新加坡币等入金「盈透证券」、「富途牛牛」、「长桥证券」等美股券商</li><li>佣金收款：可以接受 Stripe 资金或部分返佣平台的佣金（USD、SGD等）</li><li>实体借记卡：非中国地址可以申请 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 实体 VISA 卡</li><li>订阅 ChatGPT Plus、Claude 3、Midourney 等境外 AI 服务：<a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 实体 VISA 卡可以直接用来订阅 ChatGPT 4</li><li>数字货币出金：Kraken 英镑可以出金到 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a>（USDT ➡️ Kraken ➡️ 在 Kraken 将 USDT 兑换成 GBP ➡️ <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> GBP 账户,需要联系 Kraken 客服开通英镑 GBP 的 FPS 系统）</li></ul><p>⚠️ 注意：虽然 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 可以通过更改「居住地址」到国外来申请 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> Visa 实体卡片，但该操作可能会遇到被风控而导致关户（额外要求你提供国外的地址证明），<strong>不建议通过更改地址去申请实体卡</strong>，毕竟境外实体卡有非常多的渠道可以申请到，但像 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 这样好用的账户却很少。没有必要捡了芝麻丢了西瓜，得不偿失。</p><h2 id="Wise-注册及入金激活流程"><a href="#Wise-注册及入金激活流程" class="headerlink" title="Wise 注册及入金激活流程"></a><a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 注册及入金激活流程</h2><p>在中国大陆，可以用全套中国资料去开户 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a>，<a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 的注册流程非常简单，大致如下：</p><ul><li>访问 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 官网</li><li>使用电子邮箱和手机号码注册 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户</li><li>使用中国护照认证 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户</li><li>使用新加坡华侨银行 OCBC 或香港银行卡同名入金激活 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户</li></ul><p>⚠️ 如果使用护照认证 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户时，遇到「Required」报错，可以采取以下办法：</p><ul><li>开启「无痕模式」再次护照认证</li><li>清除浏览器所有缓存及历史记录后，再次护照认证</li><li>在 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> APP 自助认证</li><li>在 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> APP 联系 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 客服协助认证</li></ul><p><a href="https://wise.com/invite/dic/chengbaos1">Wise</a> APP 下载：</p><ul><li>苹果手机在苹果商店搜索<code>Wise</code>下载</li><li>安卓手机在谷歌商店搜索<code>Wise</code>下载</li></ul><h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><p>Q1.<a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 借记卡有什么用？</p><blockquote><p>订阅 ChatGPT Plus、海淘、绑定支付宝消费等</p></blockquote><p>Q2.<a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 可以入金哪些券商？</p><blockquote><p><a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 美元账户可以入金盈透证券、富途牛牛、嘉信理财、老虎证券等，<a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 新加坡币账户可以入金盈透证券、富途牛牛新加坡版</p></blockquote><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>2024 年注册 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户、并同名入金激活 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户的方法总体还是比较简单的。只要你有新加坡华侨银行OCBC账户或香港银行账户，就可以马上入金激活 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a>。</p><p>我之前注册入金遇到要审核多天的情况，可能跟扫二维码入金的方式有关，后面尝试改用绑卡的方式入金 30SGD，几分钟就成功了。所以这里建议首次注册 <a href="https://wise.com/invite/dic/chengbaos1">Wise</a> 账户时，使用绑卡的方式（同一名字下的卡）入金，避免不必要的麻烦。</p><p>如果需要开通新加坡华侨银行 OCBC 卡，可以参考 <a href="https://blog.samgeai.com/2024/06/17/ocbc-card/">线上申请新加坡OCBC实体卡并成功激活的记录</a>。目前 OCBC 卡支持线上直接申请，还可以获得实体卡。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> OCBC </tag>
+            
+            <tag> Wise </tag>
+            
+            <tag> 激活 </tag>
+            
+            <tag> 注册 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>线上申请新加坡OCBC实体卡并成功激活的记录</title>
       <link href="/2024/06/17/ocbc-card/"/>
       <url>/2024/06/17/ocbc-card/</url>
@@ -62,15 +87,15 @@
             
             <tag> yolo </tag>
             
-            <tag> iopaint </tag>
-            
             <tag> watermark </tag>
             
             <tag> models </tag>
             
-            <tag> onnx </tag>
-            
             <tag> demo </tag>
+            
+            <tag> iopaint </tag>
+            
+            <tag> onnx </tag>
             
         </tags>
       
@@ -95,13 +120,13 @@
             
             <tag> watermark </tag>
             
-            <tag> models </tag>
-            
-            <tag> demo </tag>
-            
             <tag> train </tag>
             
+            <tag> models </tag>
+            
             <tag> labelImg </tag>
+            
+            <tag> demo </tag>
             
         </tags>
       
