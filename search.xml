@@ -4,6 +4,29 @@
   
     
     <entry>
+      <title>未来相关的一些畅想</title>
+      <link href="/2024/06/19/dream/"/>
+      <url>/2024/06/19/dream/</url>
+      
+        <content type="html"><![CDATA[<ul><li>将迎来类似航海时代那样的大航空时代，一批又一批的勇士不断冲破苍穹，踏上银河的星际探索之旅。</li><li>AI跟机器人的加速融合，非侵入式脑机的进一步成熟，人们可以用脑机远控地外机器人进行作业任务。</li><li>AI对各行业的进一步渗透，诞生更多新奇的东西+创造新的岗位。</li><li>AI生成视频的质量越来越成熟，有望像2023年初SD那样迎来井喷式的应用。期望以后有产品像《西部世界》中那样，用语音讲故事，然后实时修改故事创作者想要的视频场景。每个人都是一个富有创意的导演，言出法随。</li><li>小巧的可悬浮跟随使用者的机器人，可以通过脑机或语音执行任务，例如：录像、拍照、微表情识别、xx范围内的危险预测、各种识别、随身携带的智能联网知识库、路线规划等。</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 未来 </tag>
+            
+            <tag> 科技 </tag>
+            
+            <tag> 畅想 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>注册并激活Wise账户</title>
       <link href="/2024/06/19/register-wise/"/>
       <url>/2024/06/19/register-wise/</url>
@@ -87,15 +110,15 @@
             
             <tag> yolo </tag>
             
+            <tag> iopaint </tag>
+            
             <tag> watermark </tag>
             
             <tag> models </tag>
             
-            <tag> demo </tag>
-            
-            <tag> iopaint </tag>
-            
             <tag> onnx </tag>
+            
+            <tag> demo </tag>
             
         </tags>
       
@@ -120,13 +143,13 @@
             
             <tag> watermark </tag>
             
-            <tag> train </tag>
-            
             <tag> models </tag>
             
-            <tag> labelImg </tag>
-            
             <tag> demo </tag>
+            
+            <tag> train </tag>
+            
+            <tag> labelImg </tag>
             
         </tags>
       
