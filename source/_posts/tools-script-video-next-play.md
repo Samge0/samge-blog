@@ -71,3 +71,74 @@ tags:
 })();
 
 ```
+
+如果想要播放到指定进度时自动播放下一集，可参考下面脚本（例如这里播放到`18:30`时自动播放下一集，完全自动化，解放双手）：
+```js
+// ==UserScript==
+// @name         切换下一集按钮
+// @namespace    Violentmonkey Scripts
+// @match        https://www.mxdmp.com/play/*/1/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    let button = document.createElement('button');
+    button.innerHTML = '切换下一集';
+    button.style.position = 'fixed';
+    button.style.left = '20px';
+    button.style.top = '20px';
+    button.style.zIndex = '10000';
+    document.body.appendChild(button);
+
+    button.addEventListener('click', function() {
+        switchToNextEpisode();
+    });
+
+    function switchToNextEpisode() {
+        let currentUrl = window.location.href;
+        let match = currentUrl.match(/https:\/\/www\.mxdmp\.com\/play\/(\d+)\/1\/(\d+)\//);
+        if (!match) return;
+
+        let dramaId = match[1];
+        let currentEpisode = parseInt(match[2]);
+
+        let nextEpisode = currentEpisode + 1;
+        let jumpTime = 4 * 60; // 第三分钟的秒数
+        let nextUrl = `https://www.mxdmp.com/play/${dramaId}/1/${nextEpisode}/?jumpTime=${jumpTime}`;
+
+        // 跳转到下一集
+        window.location.href = nextUrl;
+    }
+
+    // 自动切换到下一集的逻辑
+    function autoSwitchNextEpisode() {
+        let player = document.querySelector('.art-video'); // 根据实际情况获取视频元素
+        if (!player) return;
+
+        player.addEventListener('timeupdate', function() {
+            // 如果视频当前时间超过18:30秒，执行切换到下一集的操作
+            if (player.currentTime >= 18 * 60 + 30) {
+                switchToNextEpisode();
+            }
+        });
+    }
+
+    // 当页面加载完毕时设置播放进度
+    window.addEventListener('load', function() {
+        let params = new URLSearchParams(window.location.search);
+        let jumpTime = params.get('jumpTime');
+        if (jumpTime) {
+            let player = document.querySelector('.art-video'); // 根据实际情况获取视频元素
+            if (player) {
+                player.currentTime = parseInt(jumpTime);
+                player.play();
+                autoSwitchNextEpisode(); // 启动自动切换下一集的监听
+            }
+        }
+    });
+
+})();
+
+```
