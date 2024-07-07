@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="在某个动漫网站追番时，每次都要手动切换集数和调整进度以跳过片头片尾，这实在是太麻烦了。为了简化这个过程，我临时起意，让GPT帮忙编写了一个暴力猴（Tampermonkey）脚本，实现&quot;一键自动切换下一集并跳过片头&quot;的功能。 这个脚本让观看动漫的体验变得更加顺畅。现在，只需点一下按钮，就可以切换到下一集并自动跳过片头，极大地节省了重复操作的时间。 当然，也可以通过简单的设置实现全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾">
+<meta property="og:url" content="https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/index.html">
+<meta property="og:site_name" content="Samge Blog">
+<meta property="og:description" content="在某个动漫网站追番时，每次都要手动切换集数和调整进度以跳过片头片尾，这实在是太麻烦了。为了简化这个过程，我临时起意，让GPT帮忙编写了一个暴力猴（Tampermonkey）脚本，实现&quot;一键自动切换下一集并跳过片头&quot;的功能。 这个脚本让观看动漫的体验变得更加顺畅。现在，只需点一下按钮，就可以切换到下一集并自动跳过片头，极大地节省了重复操作的时间。 当然，也可以通过简单的设置实现全">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-07T05:10:31.000Z">
+<meta property="article:modified_time" content="2024-07-07T05:20:04.048Z">
+<meta property="article:author" content="Samge">
+<meta property="article:tag" content="追番">
+<meta property="article:tag" content="脚本">
+<meta property="article:tag" content="暴力猴">
+<meta property="article:tag" content="油猴">
+<meta property="article:tag" content="自动播放">
+<meta property="article:tag" content="动漫">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EWRHT0FSTE"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EWRHT0FSTE');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/timeline/">事件</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/07/05/life-1/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&text=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&is_video=false&description=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾&body=Check out this article: https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&name=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&t=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Samge</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-07T05:10:31.000Z" class="dt-published" itemprop="datePublished">2024-07-07</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%8A%A8%E6%BC%AB/" rel="tag">动漫</a>, <a class="p-category" href="/tags/%E6%9A%B4%E5%8A%9B%E7%8C%B4/" rel="tag">暴力猴</a>, <a class="p-category" href="/tags/%E6%B2%B9%E7%8C%B4/" rel="tag">油猴</a>, <a class="p-category" href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag">脚本</a>, <a class="p-category" href="/tags/%E8%87%AA%E5%8A%A8%E6%92%AD%E6%94%BE/" rel="tag">自动播放</a>, <a class="p-category" href="/tags/%E8%BF%BD%E7%95%AA/" rel="tag">追番</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>在某个动漫网站追番时，每次都要手动切换集数和调整进度以跳过片头片尾，这实在是太麻烦了。为了简化这个过程，我临时起意，让GPT帮忙编写了一个暴力猴（Tampermonkey）脚本，实现<code>&quot;一键自动切换下一集并跳过片头&quot;</code>的功能。</p>
+<p>这个脚本让观看动漫的体验变得更加顺畅。现在，只需点一下按钮，就可以切换到下一集并自动跳过片头，极大地节省了重复操作的时间。</p>
+<p>当然，也可以通过简单的设置实现全自动播放的功能，比如自动监听播放到片尾位置并切换到下一集。目前我观看的动漫片尾时间不固定，暂时没有配置全自动切换播放的功能。当前这个一键切换下一集的手动功能，已经解放了大量的重复时间，让观影体验更为愉悦。</p>
+<p>以下是这个脚本的基本逻辑：</p>
+<ul>
+<li><strong>一键切换下一集</strong>：无需手动选择下一集，只需点击一次按钮即可自动切换。</li>
+<li><strong>自动跳过片头</strong>：在播放时自动跳过片头部分，直接进入正片。</li>
+</ul>
+<p>一下是本次脚本的代码记录：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ==UserScript==</span></span><br><span class="line"><span class="comment">// @name         切换下一集按钮</span></span><br><span class="line"><span class="comment">// @namespace    Violentmonkey Scripts</span></span><br><span class="line"><span class="comment">// @match        https://www.mxdmp.com/play/*/1/*</span></span><br><span class="line"><span class="comment">// @grant        none</span></span><br><span class="line"><span class="comment">// ==/UserScript==</span></span><br><span class="line"></span><br><span class="line">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="string">&#x27;use strict&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> button = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;button&#x27;</span>);</span><br><span class="line">    button.<span class="property">innerHTML</span> = <span class="string">&#x27;切换下一集&#x27;</span>;</span><br><span class="line">    button.<span class="property">style</span>.<span class="property">position</span> = <span class="string">&#x27;fixed&#x27;</span>;</span><br><span class="line">    button.<span class="property">style</span>.<span class="property">left</span> = <span class="string">&#x27;20px&#x27;</span>;</span><br><span class="line">    button.<span class="property">style</span>.<span class="property">top</span> = <span class="string">&#x27;20px&#x27;</span>;</span><br><span class="line">    button.<span class="property">style</span>.<span class="property">zIndex</span> = <span class="string">&#x27;10000&#x27;</span>;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(button);</span><br><span class="line"></span><br><span class="line">    button.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> currentUrl = <span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span>;</span><br><span class="line">        <span class="keyword">let</span> match = currentUrl.<span class="title function_">match</span>(<span class="regexp">/https:\/\/www\.mxdmp\.com\/play\/(\d+)\/1\/(\d+)\//</span>);</span><br><span class="line">        <span class="keyword">if</span> (!match) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> dramaId = match[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">let</span> currentEpisode = <span class="built_in">parseInt</span>(match[<span class="number">2</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> nextEpisode = currentEpisode + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">let</span> jumpTime = <span class="number">4</span> * <span class="number">60</span>; <span class="comment">// 第三分钟的秒数</span></span><br><span class="line">        <span class="keyword">let</span> nextUrl = <span class="string">`https://www.mxdmp.com/play/<span class="subst">$&#123;dramaId&#125;</span>/1/<span class="subst">$&#123;nextEpisode&#125;</span>/?jumpTime=<span class="subst">$&#123;jumpTime&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 跳转到下一集</span></span><br><span class="line">        <span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span> = nextUrl;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当页面加载完毕时设置播放进度</span></span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;load&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> params = <span class="keyword">new</span> <span class="title class_">URLSearchParams</span>(<span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">search</span>);</span><br><span class="line">        <span class="keyword">let</span> jumpTime = params.<span class="title function_">get</span>(<span class="string">&#x27;jumpTime&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (jumpTime) &#123;</span><br><span class="line">            <span class="keyword">let</span> player = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.art-video&#x27;</span>); <span class="comment">// s根据实际情况获取视频元素</span></span><br><span class="line">            <span class="keyword">if</span> (player) &#123;</span><br><span class="line">                player.<span class="property">currentTime</span> = <span class="built_in">parseInt</span>(jumpTime);</span><br><span class="line">                player.<span class="title function_">play</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+          <li><a href="/timeline/">事件</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&text=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&is_video=false&description=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾&body=Check out this article: https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&title=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&name=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.samgeai.com/2024/07/07/tools-script-video-next-play/&t=提高追番效率：使用暴力猴脚本实现一键自动切换集数并跳过片头片尾"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    Samge
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/timeline/">事件</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?4196a9020a4dba979eb19815c8ec9924";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'Samge0/samge-blog';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-light';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
