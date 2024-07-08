@@ -20,7 +20,7 @@ tags:
 - **一键切换下一集**：无需手动选择下一集，只需点击一次按钮即可自动切换。
 - **自动跳过片头**：在播放时自动跳过片头部分，直接进入正片。
 
-一下是本次脚本的代码记录：
+以下是本次脚本的代码记录：
 ```js
 // ==UserScript==
 // @name         切换下一集按钮
@@ -49,7 +49,7 @@ tags:
         let currentEpisode = parseInt(match[2]);
 
         let nextEpisode = currentEpisode + 1;
-        let jumpTime = 4 * 60; // 第三分钟的秒数
+        let jumpTime = 3 * 60 + 30; // 第三分半钟的秒数
         let nextUrl = `https://www.mxdmp.com/play/${dramaId}/1/${nextEpisode}/?jumpTime=${jumpTime}`;
 
         // 跳转到下一集
@@ -105,7 +105,7 @@ tags:
         let currentEpisode = parseInt(match[2]);
 
         let nextEpisode = currentEpisode + 1;
-        let jumpTime = 4 * 60; // 第三分钟的秒数
+        let jumpTime = 3 * 60 + 30; // 第三分半钟的秒数
         let nextUrl = `https://www.mxdmp.com/play/${dramaId}/1/${nextEpisode}/?jumpTime=${jumpTime}`;
 
         // 跳转到下一集
@@ -118,8 +118,8 @@ tags:
         if (!player) return;
 
         player.addEventListener('timeupdate', function() {
-            // 如果视频当前时间超过18:30秒，执行切换到下一集的操作
-            if (player.currentTime >= 18 * 60 + 30) {
+            // 如果视频当前时间超过18:40秒，执行切换到下一集的操作
+            if (player.currentTime >= 18 * 60 + 40) {
                 switchToNextEpisode();
             }
         });
