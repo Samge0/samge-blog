@@ -11,7 +11,6 @@ tags:
     - Cloudflare
     - Caddy
 ---
-# 一键部署 Docker 代理：DockerProxyOneKey 开源项目介绍
 
 <p align="center" style="background-color: #33f0f0f0;">
     <img src="https://github.com/user-attachments/assets/d32957f6-94fd-4ae2-83f3-12622b7d9429" alt="DockerProxyOneKey" width="200"/>
