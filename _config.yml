@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Samge Blog
-subtitle: 'Samge Blog Subtitle'
-description: 'Samge Blog Description'
-keywords: Samge,Blog
+title: 随机漫步的傻瓜
+subtitle: 'Samge的个人博客，杂谈，随笔'
+description: '悬浮时代，先有后优。如微尘浮游，如烟雾浓重。浮生若梦，如梦如幻。'
+keywords: Samge,Blog,杂谈,随笔
 author: 随机漫步的傻瓜
 language: zh-CN
 timezone: 'Asia/Shanghai'
