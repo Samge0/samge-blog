@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>几款数据集管理&amp;实验跟踪的工具备忘</title>
+      <link href="/2024/09/12/ai-datas-tools/"/>
+      <url>/2024/09/12/ai-datas-tools/</url>
+      
+        <content type="html"><![CDATA[<ol><li><p><strong>DVC</strong>（Data Version Control）提供了强大的数据集版本控制和与 Git 的无缝集成，适合大规模数据管理和实验追踪。</p></li><li><p><strong>Weights &amp; Biases (W&amp;B)</strong> 和 <strong>MLflow</strong> 是实验管理的利器，支持详细的实验跟踪和可视化，帮助用户优化模型训练。</p></li><li><p><strong>Hugging Face Datasets</strong> 和 <strong>TensorFlow Datasets</strong> 专注于文本数据处理，特别适合 NLP 任务和 TensorFlow 环境。</p></li><li><p><strong>Snorkel</strong> 利用弱监督学习自动化标注数据集，减少人工标注的工作量。</p></li><li><p><strong>Pachyderm</strong> 和 <strong>Dagster</strong> 适合复杂的数据处理和分布式工作流管理，支持大规模数据集和多框架集成。</p></li><li><p><strong>Polyaxon</strong> 提供了强大的分布式实验管理功能，而 <strong>OpenML</strong> 则专注于数据和实验的共享与追踪。</p></li></ol><hr><table><thead><tr><th>工具&#x2F;项目</th><th>主要特点</th><th>官网</th><th>GitHub 地址</th><th>优点</th><th>缺点</th><th>适用场景</th></tr></thead><tbody><tr><td><strong>DVC (Data Version Control)</strong></td><td>- 数据集版本控制<br>- 与 Git 集成<br>- 支持大规模文本数据管理<br>- 与云存储集成</td><td><a href="https://dvc.org/">https://dvc.org/</a></td><td><a href="https://github.com/iterative/dvc">https://github.com/iterative/dvc</a></td><td>- 强大的数据版本控制<br>- 与 Git 无缝集成</td><td>- 复杂项目设置可能需要额外学习曲线</td><td>- 大规模文本数据管理<br>- 实验和数据集版本追踪</td></tr><tr><td><strong>Weights &amp; Biases (W&amp;B)</strong></td><td>- 实验跟踪和可视化<br>- 数据集和实验版本控制<br>- 支持主流 ML 框架<br>- 自动记录训练过程</td><td><a href="https://wandb.com/">https://wandb.com/</a></td><td><a href="https://github.com/wandb/client">https://github.com/wandb/client</a></td><td>- 自动化实验记录和可视化<br>- 简单的 UI</td><td>- 需要联网才能使用完整功能</td><td>- 实验追踪和可视化<br>- 适合频繁的实验调整</td></tr><tr><td><strong>MLflow</strong></td><td>- 实验、超参数管理<br>- 模型和数据集版本控制<br>- 支持多种 ML 框架</td><td><a href="https://mlflow.org/">https://mlflow.org/</a></td><td><a href="https://github.com/mlflow/mlflow">https://github.com/mlflow/mlflow</a></td><td>- 简洁的实验管理<br>- 跨框架支持</td><td>- UI 界面较简单<br>- 初学者设置稍复杂</td><td>- 适用于多框架的实验管理和模型追踪</td></tr><tr><td><strong>Hugging Face Datasets</strong></td><td>- 快速加载和处理 NLP 数据集<br>- 与 Transformers 集成<br>- 支持分布式处理</td><td><a href="https://huggingface.co/docs/datasets/">https://huggingface.co/docs/datasets/</a></td><td><a href="https://github.com/huggingface/datasets">https://github.com/huggingface/datasets</a></td><td>- 丰富的 NLP 数据集<br>- 与 Transformers 集成</td><td>- 主要适用于 NLP 任务<br>- 对非 NLP 数据支持有限</td><td>- NLP 模型微调<br>- 数据集加载和管理</td></tr><tr><td><strong>Snorkel</strong></td><td>- 自动化文本标注<br>- 弱监督学习生成大规模数据集<br>- 减少人工标注需求</td><td><a href="https://snorkel.org/">https://snorkel.org/</a></td><td><a href="https://github.com/snorkel-team/snorkel">https://github.com/snorkel-team/snorkel</a></td><td>- 自动化标注大幅减少人工工作量<br>- 支持弱监督学习</td><td>- 需要编写自定义标注函数<br>- 高质量标注依赖于规则准确性</td><td>- 自动化生成标注数据集<br>- 适合需要大规模标注的任务</td></tr><tr><td><strong>TensorFlow Datasets (TFDS)</strong></td><td>- 内置大量 NLP 数据集<br>- 与 TensorFlow 集成<br>- 高效数据加载</td><td><a href="https://www.tensorflow.org/datasets">https://www.tensorflow.org/datasets</a></td><td><a href="https://github.com/tensorflow/datasets">https://github.com/tensorflow/datasets</a></td><td>- 原生集成 TensorFlow<br>- 支持多种数据格式</td><td>- 与 TensorFlow 深度绑定<br>- 对其他框架支持有限</td><td>- 适用于使用 TensorFlow 的数据加载与预处理</td></tr><tr><td><strong>Pachyderm</strong></td><td>- 数据集版本控制<br>- 容器化的工作流管理<br>- 分布式数据处理</td><td><a href="https://www.pachyderm.com/">https://www.pachyderm.com/</a></td><td><a href="https://github.com/pachyderm/pachyderm">https://github.com/pachyderm/pachyderm</a></td><td>- 分布式处理和版本控制<br>- 支持大规模数据处理</td><td>- 学习曲线较陡峭<br>- 初期配置复杂</td><td>- 适合处理复杂、分布式的数据工作流</td></tr><tr><td><strong>Dagster</strong></td><td>- 强大的数据追踪功能<br>- 管理复杂数据管道<br>- 支持多种 ML 框架</td><td><a href="https://dagster.io/">https://dagster.io/</a></td><td><a href="https://github.com/dagster-io/dagster">https://github.com/dagster-io/dagster</a></td><td>- 强大的管道管理和数据追踪功能<br>- 支持可视化</td><td>- 对初学者复杂<br>- 需要较多配置</td><td>- 管理复杂的数据处理工作流<br>- 多框架集成</td></tr><tr><td><strong>Polyaxon</strong></td><td>- 实验管理<br>- 数据集和模型版本控制<br>- 分布式工作流和容器化训练管道</td><td><a href="https://polyaxon.com/">https://polyaxon.com/</a></td><td><a href="https://github.com/polyaxon/polyaxon">https://github.com/polyaxon/polyaxon</a></td><td>- 强大的分布式实验管理<br>- 支持容器化工作流</td><td>- 设置较复杂<br>- 对小型项目可能过于复杂</td><td>- 适用于大规模分布式训练和实验管理</td></tr><tr><td><strong>OpenML</strong></td><td>- 开放的机器学习实验和数据集共享平台<br>- 支持多种数据格式<br>- 实验结果追踪</td><td><a href="https://www.openml.org/">https://www.openml.org/</a></td><td><a href="https://github.com/openml/OpenML">https://github.com/openml/OpenML</a></td><td>- 数据和实验共享方便<br>- 强大的实验追踪</td><td>- 数据隐私问题（公开共享数据）<br>- 支持的私有项目有限</td><td>- 适合共享数据集和实验结果<br>- 开放研究项目</td></tr></tbody></table>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 数据管理 </tag>
+            
+            <tag> 实验跟踪 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用 ms-swift 框架微调 Qwen1.5-7B-chat 模型并转换为 Ollama 支持格式的实践</title>
       <link href="/2024/09/11/ms-swfit-ft-qwen1half-7b-chat-ruozhiba-llamacpp-ollama/"/>
       <url>/2024/09/11/ms-swfit-ft-qwen1half-7b-chat-ruozhiba-llamacpp-ollama/</url>
