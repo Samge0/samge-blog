@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前言npm、yarn、pnpm默认的cache目录在系统盘，现希望迁移其缓存cache及global目录到F:\.cache\nodejs下。  这里默认用windows安装为例  推荐路线：安装nvm -》 用nvm安装nodejs -》 配置npm -》【可选】安装yarn&#x2F;pnpm（这两个也是跟npm类似的包管理工具，可选） 参考文章 关于这几个工具的介绍&amp;对比文章 关于npm、ya">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端的nvm、nodejs、npm、yarn、pnpm配置备忘">
+<meta property="og:url" content="https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/index.html">
+<meta property="og:site_name" content="随机漫步的傻瓜">
+<meta property="og:description" content="前言npm、yarn、pnpm默认的cache目录在系统盘，现希望迁移其缓存cache及global目录到F:\.cache\nodejs下。  这里默认用windows安装为例  推荐路线：安装nvm -》 用nvm安装nodejs -》 配置npm -》【可选】安装yarn&#x2F;pnpm（这两个也是跟npm类似的包管理工具，可选） 参考文章 关于这几个工具的介绍&amp;对比文章 关于npm、ya">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-26T09:38:19.000Z">
+<meta property="article:modified_time" content="2024-09-26T10:06:45.807Z">
+<meta property="article:author" content="随机漫步的傻瓜">
+<meta property="article:tag" content="nvm">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="npm">
+<meta property="article:tag" content="yarn">
+<meta property="article:tag" content="pnpm">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>前端的nvm、nodejs、npm、yarn、pnpm配置备忘</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EWRHT0FSTE"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EWRHT0FSTE');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/timeline/">事件</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/09/19/test-nuxt3-note/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&text=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&is_video=false&description=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前端的nvm、nodejs、npm、yarn、pnpm配置备忘&body=Check out this article: https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&name=前端的nvm、nodejs、npm、yarn、pnpm配置备忘&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&t=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85nvm"><span class="toc-number">3.</span> <span class="toc-text">安装nvm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8nvm%E5%AE%89%E8%A3%85nodejs%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">用nvm安装nodejs：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEnpm%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">配置npm：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%90%E5%8F%AF%E9%80%89%E3%80%91%E5%AE%89%E8%A3%85yarn"><span class="toc-number">6.</span> <span class="toc-text">【可选】安装yarn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%90%E5%8F%AF%E9%80%89%E3%80%91%E5%AE%89%E8%A3%85pnpm"><span class="toc-number">7.</span> <span class="toc-text">【可选】安装pnpm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%87%E6%80%BB%E9%9C%80%E8%A6%81%E9%85%8D%E7%BD%AE%E5%88%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E7%9B%AE%E5%BD%95%EF%BC%9A"><span class="toc-number">8.</span> <span class="toc-text">汇总需要配置到环境变量的目录：</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        前端的nvm、nodejs、npm、yarn、pnpm配置备忘
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">随机漫步的傻瓜</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-09-26T09:38:19.000Z" class="dt-published" itemprop="datePublished">2024-09-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/nodejs/" rel="tag">nodejs</a>, <a class="p-category" href="/tags/npm/" rel="tag">npm</a>, <a class="p-category" href="/tags/nvm/" rel="tag">nvm</a>, <a class="p-category" href="/tags/pnpm/" rel="tag">pnpm</a>, <a class="p-category" href="/tags/yarn/" rel="tag">yarn</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><code>npm、yarn、pnpm</code>默认的<code>cache目录</code>在系统盘，现希望迁移其缓存<code>cache</code>及<code>global</code>目录到<code>F:\.cache\nodejs</code>下。</p>
+<blockquote>
+<p>这里默认用windows安装为例</p>
+</blockquote>
+<p>推荐路线：<code>安装nvm</code> -》 <code>用nvm安装nodejs</code> -》 <code>配置npm</code> -》【可选】<code>安装yarn/pnpm</code>（这两个也是跟npm类似的包管理工具，可选）</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/zm06201118/article/details/125048608">关于这几个工具的介绍&amp;对比文章</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/breezefaith/p/17976013">关于npm、yarn、pnpm的缓存路径与清理的介绍</a></li>
+</ul>
+<h3 id="安装nvm"><a href="#安装nvm" class="headerlink" title="安装nvm"></a>安装nvm</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/coreybutler/nvm-windows/releases">windows</a></p>
+<p>  windows的从release中下载安装文件进行安装</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/nvm-sh/nvm">linux&#x2F;mac</a></p>
+<p>  linux&#x2F;mac的执行仓库提供的sh脚本进行安装，安装完毕后在终端可以看到nvm的安装目录，默认在<code>~/.nvm</code></p>
+</li>
+<li><p>安装完毕后修改默认配置：</p>
+<p>  修改nvm安装目录下的settings.txt文件，可指定nvm的路径跟nodejs的路径（nodejs的路径实际默认会安装在nvm的安装目录下，指定的nodejs路径其实是一个软链接路径）：</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root: F:/APP/nvm</span><br><span class="line">path: F:/APP/nvm/nodejs</span><br><span class="line">arch: 64</span><br><span class="line">originalpath: </span><br><span class="line">originalversion: </span><br><span class="line">node_mirror: https://registry.npmmirror.com/binary.html?path=node/</span><br><span class="line">npm_mirror: https://registry.npmmirror.com/binary.html?path=npm/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置环境变量（方面直接用<code>nvm命令</code>、<code>nodejs全局命令</code>）：</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setx NVM_HOME &quot;F:\APP\nvm&quot; /M</span><br><span class="line">setx NVM_SYMLINK &quot;F:\APP\nvm\nodejs&quot; /M</span><br></pre></td></tr></table></figure>
+<p>  在Path中追加配置：<code>%NVM_HOME%</code> 跟 <code>%NVM_SYMLINK%</code></p>
+</li>
+</ul>
+<h3 id="用nvm安装nodejs："><a href="#用nvm安装nodejs：" class="headerlink" title="用nvm安装nodejs："></a>用nvm安装nodejs：</h3><ul>
+<li><p>安装并使用nodejs</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvm install 20</span><br><span class="line">nvm use 20</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看nvm版本</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看node版本：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --version</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="配置npm："><a href="#配置npm：" class="headerlink" title="配置npm："></a>配置npm：</h3><p>配置文件路径为：<code>C:/Users/userName/.npmrc</code>，自定义缓存目录跟仓库源（这里用了<code>nvm</code>就不需要配置<code>prefix</code>目录了，默认-g的全局依赖包会安装到nvm下的nodejs目录）</p>
+<ul>
+<li><p>指定cache目录+仓库源：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set cache &quot;F:/.cache/nodejs/npm/cache&quot; &amp;&amp; npm config set registry &quot;http://registry.npmmirror.com&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前配置：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config ls -l</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装全局依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除全局依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall -g &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看全局依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm list -g</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装局部依赖（默认安装在当前项目根目录的<code>node_modules</code>下）:</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除局部依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【仅记录，请忽略】原先默认的路径配置：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cache = &quot;C:/Users/userName/AppData/Local/npm-cache&quot;</span><br><span class="line">prefix = &quot;C:/Program Files/nodejs&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取缓存路径：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config get cache</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清理缓存：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm cache clean -f</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="【可选】安装yarn"><a href="#【可选】安装yarn" class="headerlink" title="【可选】安装yarn"></a>【可选】安装yarn</h3><p>配置文件路径为：<code>C:/Users/userName/.yarnrc</code></p>
+<ul>
+<li><p>安装：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yarn</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置cache跟glabal目录+仓库源（执行完毕后需要将global目录配置到环境变量中）：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yarn config set prefix &quot;F:\.cache\nodejs\Yarn\Data&quot; &amp;&amp; `</span><br><span class="line">yarn config set global-folder &quot;F:\.cache\nodejs\Yarn\Data\global&quot; &amp;&amp; `</span><br><span class="line">yarn config set cache-folder &quot;F:\.cache\nodejs\Yarn\Cache&quot; &amp;&amp; `</span><br><span class="line">yarn config set link-folder &quot;F:\.cache\nodejs\Yarn\Data\link&quot; &amp;&amp; `</span><br><span class="line">yarn config set registry &quot;http://registry.npmmirror.com&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前配置：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn global dir &amp;&amp; yarn cache dir</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装全局依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn global add &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除全局依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn global remove &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看全局依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn global list &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装局部依赖（默认安装在当前项目根目录的<code>node_modules</code>下）:</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除局部依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn remove &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【仅记录，请忽略】原先默认的路径配置：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cache = &quot;C:/Users/userName/AppData/Local/Yarn/Cache&quot;</span><br><span class="line">prefix = &quot;C:/Users/userName/AppData/Local/Yarn/Data&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取缓存路径：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn cache dir</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清理缓存：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn cache clean -f</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="【可选】安装pnpm"><a href="#【可选】安装pnpm" class="headerlink" title="【可选】安装pnpm"></a>【可选】安装pnpm</h3><p>默认配置文件路径为：<code>C:\Users\userName\AppData\Local\pnpm\config\rc</code></p>
+<ul>
+<li><p>安装：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g pnpm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置环境变量（全局包会存放于该目录）</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setx PNPM_HOME &quot;F:\.cache\nodejs\pnpm&quot; /M</span><br></pre></td></tr></table></figure>
+<p>  在Path中追加配置：<code>%PNPM_HOME%</code></p>
+</li>
+<li><p>配置cache跟glabal目录+仓库源：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pnpm config set cache-dir &quot;F:/.cache/nodejs/pnpm/cache&quot; &amp;&amp; `</span><br><span class="line">pnpm config set store-dir &quot;F:/.cache/nodejs/pnpm/store&quot; &amp;&amp; `</span><br><span class="line">pnpm config set registry &quot;http://registry.npmmirror.com&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前配置：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm config list</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装全局依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm add -g &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除全局依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm remove -g &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看全局依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm list -g &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装局部依赖（默认安装在当前项目根目录的node_modules下）:</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm add &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除局部依赖：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm remove &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【仅记录，请忽略】原先默认的路径配置：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cache = &quot;C:/Users/userName/AppData/Local/pnpm&quot;</span><br><span class="line">prefix = &quot;C:/Users/userName/AppData/Local/pnpm&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取缓存路径：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm store path</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清理缓存：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm store prune</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="汇总需要配置到环境变量的目录："><a href="#汇总需要配置到环境变量的目录：" class="headerlink" title="汇总需要配置到环境变量的目录："></a>汇总需要配置到环境变量的目录：</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">%NVM_HOME%</span><br><span class="line">%NVM_SYMLINK%</span><br><span class="line">%PNPM_HOME%</span><br><span class="line">F:\.cache\nodejs\Yarn\Data\bin</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+          <li><a href="/timeline/">事件</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">2.</span> <span class="toc-text">参考文章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85nvm"><span class="toc-number">3.</span> <span class="toc-text">安装nvm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8nvm%E5%AE%89%E8%A3%85nodejs%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">用nvm安装nodejs：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEnpm%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">配置npm：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%90%E5%8F%AF%E9%80%89%E3%80%91%E5%AE%89%E8%A3%85yarn"><span class="toc-number">6.</span> <span class="toc-text">【可选】安装yarn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%80%90%E5%8F%AF%E9%80%89%E3%80%91%E5%AE%89%E8%A3%85pnpm"><span class="toc-number">7.</span> <span class="toc-text">【可选】安装pnpm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%87%E6%80%BB%E9%9C%80%E8%A6%81%E9%85%8D%E7%BD%AE%E5%88%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E7%9B%AE%E5%BD%95%EF%BC%9A"><span class="toc-number">8.</span> <span class="toc-text">汇总需要配置到环境变量的目录：</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&text=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&is_video=false&description=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前端的nvm、nodejs、npm、yarn、pnpm配置备忘&body=Check out this article: https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&title=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&name=前端的nvm、nodejs、npm、yarn、pnpm配置备忘&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.samgeai.com/2024/09/26/nvm-nodejs-npm-yarn-pnpm-config/&t=前端的nvm、nodejs、npm、yarn、pnpm配置备忘"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    随机漫步的傻瓜
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a href="/timeline/">事件</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?4196a9020a4dba979eb19815c8ec9924";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'Samge0/samge-blog';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-light';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
