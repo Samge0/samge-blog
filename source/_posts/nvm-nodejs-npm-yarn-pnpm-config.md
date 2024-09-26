@@ -10,7 +10,7 @@ tags:
 ---
 
 ### 前言
-`npm、yarn、pnpm`默认的`cache目录在`系统盘，现希望迁移其缓存`cache`及`global`目录到`F:\.cache\nodejs`下。
+`npm、yarn、pnpm`默认的`cache目录`在系统盘，现希望迁移其缓存`cache`及`global`目录到`F:\.cache\nodejs`下。
 
 > 这里默认用windows安装为例
 
