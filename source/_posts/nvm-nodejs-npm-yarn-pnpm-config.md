@@ -46,6 +46,8 @@ tags:
     ```text
     setx NVM_HOME "F:\APP\nvm" /M
     setx NVM_SYMLINK "F:\APP\nvm\nodejs" /M
+
+    setx PATH "%PATH%;%NVM_HOME%;%NVM_SYMLINK%" /M
     ```
     在Path中追加配置：`%NVM_HOME%` 跟 `%NVM_SYMLINK%`
 
@@ -184,6 +186,12 @@ tags:
     yarn cache clean -f
     ```
 
+- 配置yarn的全局依赖目录环境变量
+    ```text
+    setx PATH "%PATH%;F:\.cache\nodejs\Yarn\Data\bin" /M
+    ```
+    在Path中追加配置：`F:\.cache\nodejs\Yarn\Data\bin`
+
 
 ### 【可选】安装pnpm
 默认配置文件路径为：`C:\Users\userName\AppData\Local\pnpm\config\rc`
@@ -196,6 +204,8 @@ tags:
 - 配置环境变量（全局包会存放于该目录）
     ```text
     setx PNPM_HOME "F:\.cache\nodejs\pnpm" /M
+    
+    setx PATH "%PATH%;%PNPM_HOME%" /M
     ```
     在Path中追加配置：`%PNPM_HOME%`
 
@@ -253,10 +263,15 @@ tags:
     ```
 
 
-### 汇总需要配置到环境变量的目录：
+### 汇总需要手动配置到环境变量的目录：
 ```text
 %NVM_HOME%
 %NVM_SYMLINK%
 %PNPM_HOME%
 F:\.cache\nodejs\Yarn\Data\bin
+```
+
+命令行方式添加（[powershell](https://github.com/PowerShell/PowerShell/releases/tag/v7.4.5)下管理员权限）：
+```text
+setx PATH "%PATH%;%NVM_HOME%;%NVM_SYMLINK%;%PNPM_HOME%;F:\.cache\nodejs\Yarn\Data\bin" /M
 ```
