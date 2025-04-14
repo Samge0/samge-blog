@@ -10,6 +10,17 @@ tags:
     - 个人成长
 ---
 
+- 20250415 01:42
+    ```text
+    sorry, i feel so sad, i can not to stop sadly thoughts.
+    i think i should go to sleep.
+    i hope tomorrow will be better.
+    darkness is not the end, it is just a part of life.
+    i will find my way out.
+    i will be ok.
+    i will be strong.
+    ```
+
 - 20250209
     ```text
     现在是03：25，又熬夜了。焦虑，深深的焦虑，虚无缥缈的未来，一切都是那么窒息。我知道，该睡觉了，深夜总是容易陷入情绪的漩涡，睡一觉到白天就会恢复了。抬头看一眼镜子，觉得非常陌生。-----沸水中的青蛙如是说。
