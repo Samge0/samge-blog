@@ -73,7 +73,7 @@ tags:
 
 - 指定cache目录+仓库源：
     ```shell
-    npm config set cache "F:/.cache/nodejs/npm/cache" && npm config set registry "http://registry.npmmirror.com"
+    npm config set cache "G:/.cache/nodejs/npm/cache" && npm config set registry "http://registry.npmmirror.com"
     ```
 
 - 查看当前配置：
@@ -211,8 +211,8 @@ tags:
 
 - 配置cache跟glabal目录+仓库源：
     ```shell
-    pnpm config set cache-dir "F:/.cache/nodejs/pnpm/cache" && `
-    pnpm config set store-dir "F:/.cache/nodejs/pnpm/store" && `
+    pnpm config set cache-dir "G:/.cache/nodejs/pnpm/cache" && `
+    pnpm config set store-dir "G:/.cache/nodejs/pnpm/store" && `
     pnpm config set registry "http://registry.npmmirror.com"
     ```
 

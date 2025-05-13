@@ -79,7 +79,7 @@ services:
         PROXY: http://192.168.50.48:7890
     volumes:
       - ..:/app    
-      - F:/.cache:/root/.cache    
+      - G:/.cache:/root/.cache    
     command: sleep infinity
     restart: unless-stopped
     environment:
@@ -149,7 +149,7 @@ services:
           PROXY: http://192.168.50.48:7890
       volumes:
         - ..:/app    
-        - F:/.cache:/root/.cache    
+        - G:/.cache:/root/.cache    
       command: sleep infinity
       restart: unless-stopped
       environment:
