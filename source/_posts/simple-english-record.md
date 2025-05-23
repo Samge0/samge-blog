@@ -11,6 +11,14 @@ tags:
     - self-repair
 ---
 
+
+
+- 20250523 23:46
+    ```text
+    Sometimes, evasion is a fear of love: afraid of facing it, afraid of losing control, afraid of feeling guilty, and afraid of being too late.
+    ```
+
+
 - 20250415 01:42
     ```text
     sorry, i feel so sad, i can not to stop sadly thoughts.
