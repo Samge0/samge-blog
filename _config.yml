@@ -132,7 +132,7 @@ theme_config:
     height: 50
     url: /images/logo.svg  # Change this path to your custom logo
     gravatar: false
-    grayout: true
+    grayout: false
 
   # Favicon configuration
   favicon:
