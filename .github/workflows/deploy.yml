@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - release
+    tags:
+      - 'v*'
 
   # Allows you to run this workflow manually from the Actions tab
   # 可以手动触发
