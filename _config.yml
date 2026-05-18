@@ -130,8 +130,10 @@ theme_config:
   
   nav:
     home: /
-    articles: /archives/
+    分类: /categories/
+    标签: /tags/
     事件: timeline/
+    articles: /archives/
     search: /search/
     # about: /about/
     Github: https://github.com/Samge0
