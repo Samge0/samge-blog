@@ -125,6 +125,27 @@ baiduAnalytics:
 theme_config:
   colorscheme: white  # dark | light | white
 
+  # Logo configuration
+  logo:
+    enabled: true
+    width: 50
+    height: 50
+    url: /images/logo.svg  # Change this path to your custom logo
+    gravatar: false
+    grayout: true
+
+  # Favicon configuration
+  favicon:
+    desktop:
+      url: /images/logo.svg
+      gravatar: false
+    android:
+      url: /images/logo.svg
+      gravatar: false
+    apple:
+      url: /images/logo.svg
+      gravatar: false
+
   # cactus
   projects_url: https://github.com/Samge0
   
