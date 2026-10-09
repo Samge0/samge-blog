@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="电脑上微信的消息时间比实际早了 7 小时，卸载重装客户端完全没用。问题不在微信，也不在系统时区，而在一个人畜无害的系统环境变量 TZ。  一句话结论：系统里存在 TZ&#x3D;Asia&#x2F;Shanghai，这个 IANA 格式的时区名被微信的 C 运行时按 POSIX 规则误解析成了 UTC+1，比 UTC+8 早 7 小时。删掉这个变量即可。  下面是解决方案与完整分析过程（前半部分可直接照做，后半部分是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows微信消息时间差7小时？元凶是TZ环境变量">
+<meta property="og:url" content="https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/index.html">
+<meta property="og:site_name" content="随机漫步的傻瓜">
+<meta property="og:description" content="电脑上微信的消息时间比实际早了 7 小时，卸载重装客户端完全没用。问题不在微信，也不在系统时区，而在一个人畜无害的系统环境变量 TZ。  一句话结论：系统里存在 TZ&#x3D;Asia&#x2F;Shanghai，这个 IANA 格式的时区名被微信的 C 运行时按 POSIX 规则误解析成了 UTC+1，比 UTC+8 早 7 小时。删掉这个变量即可。  下面是解决方案与完整分析过程（前半部分可直接照做，后半部分是">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-08T21:40:00.000Z">
+<meta property="article:modified_time" content="2026-10-09T01:51:57.736Z">
+<meta property="article:author" content="随机漫步的傻瓜">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="微信">
+<meta property="article:tag" content="时区">
+<meta property="article:tag" content="TZ环境变量">
+<meta property="article:tag" content="C运行时">
+<meta property="article:tag" content="踩坑记录">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/logo.svg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/logo.svg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.svg">
+        
+      
+    
+    <!-- title -->
+    <title>Windows微信消息时间差7小时？元凶是TZ环境变量</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EWRHT0FSTE"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EWRHT0FSTE');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/timeline/">事件</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">Github</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/07/06/%E7%94%9F%E6%B4%BB%E9%9A%8F%E7%AC%94/%E6%96%AD%E8%88%8D%E7%A6%BB/thoughtcontrou/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&text=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&is_video=false&description=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Windows微信消息时间差7小时？元凶是TZ环境变量&body=Check out this article: https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&name=Windows微信消息时间差7小时？元凶是TZ环境变量&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&t=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%A7%A3%E5%86%B3%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.</span> <span class="toc-text">一、解决步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E7%A1%AE%E8%AE%A4%E6%98%AF%E4%B8%8D%E6%98%AF%E8%BF%99%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">步骤 1：确认是不是这个问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E6%A3%80%E6%9F%A5-TZ-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">步骤 2：检查 TZ 环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%EF%BC%9A%E5%88%A0%E6%8E%89%E5%AE%83"><span class="toc-number">1.3.</span> <span class="toc-text">步骤 3：删掉它</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-4%EF%BC%9A%E9%87%8D%E5%90%AF%E7%9B%AE%E6%A0%87%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.4.</span> <span class="toc-text">步骤 4：重启目标程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-5%EF%BC%9A%E9%AA%8C%E8%AF%81"><span class="toc-number">1.5.</span> <span class="toc-text">步骤 5：验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9A%A0%EF%B8%8F-%E4%B8%8D%E8%A6%81%E6%94%B9%E6%88%90-CST-8"><span class="toc-number">1.6.</span> <span class="toc-text">⚠️ 不要改成 CST-8</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B9%E5%9B%A0%EF%BC%9AIANA-%E6%97%B6%E5%8C%BA%E5%90%8D%E8%A2%AB-C-%E8%BF%90%E8%A1%8C%E6%97%B6%E8%AF%AF%E8%A7%A3%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">二、根因：IANA 时区名被 C 运行时误解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B3%BB%E7%BB%9F%E6%97%B6%E5%8C%BA%E6%98%8E%E6%98%8E%E6%98%AF%E5%AF%B9%E7%9A%84"><span class="toc-number">2.1.</span> <span class="toc-text">为什么系统时区明明是对的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%B0%8F%E6%97%B6%E6%98%AF%E6%80%8E%E4%B9%88%E7%AE%97%E5%87%BA%E6%9D%A5%E7%9A%84"><span class="toc-number">2.2.</span> <span class="toc-text">7 小时是怎么算出来的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8D%B8%E8%BD%BD%E9%87%8D%E8%A3%85%E6%97%A0%E6%95%88"><span class="toc-number">2.3.</span> <span class="toc-text">为什么卸载重装无效</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%AE%9A%E4%BD%8D%E6%96%B9%E6%B3%95%EF%BC%88%E9%80%82%E7%94%A8%E4%BA%8E%E4%BB%BB%E4%BD%95%E2%80%9D%E6%9F%90%E7%A8%8B%E5%BA%8F%E6%97%B6%E9%97%B4%E4%B8%8D%E5%AF%B9%E2%80%9D%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">三、定位方法（适用于任何”某程序时间不对”）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%B4%E6%8E%A5%E8%AF%BB%E7%9B%AE%E6%A0%87%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">3.1.</span> <span class="toc-text">1. 直接读目标进程的环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%94%A8%E6%9C%80%E5%B0%8F-C-%E7%A8%8B%E5%BA%8F%E5%81%9A%E5%AF%B9%E7%85%A7%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.2.</span> <span class="toc-text">2. 用最小 C 程序做对照实验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%85%BC%E5%AE%B9%E6%80%A7%E7%9F%A9%E9%98%B5%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E5%88%A0%E9%99%A4%E6%98%AF%E5%94%AF%E4%B8%80%E6%AD%A3%E8%A7%A3"><span class="toc-number">4.</span> <span class="toc-text">四、兼容性矩阵：为什么删除是唯一正解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%99%84%EF%BC%9A%E8%A7%A3%E6%9E%90%E5%BE%AE%E4%BF%A1%E6%97%B6%E9%97%B4%E6%88%B3%E7%9A%84%E5%8F%A6%E4%B8%80%E4%B8%AA%E9%AB%98%E9%A2%91%E5%9D%91"><span class="toc-number">5.</span> <span class="toc-text">五、附：解析微信时间戳的另一个高频坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%B0%8F%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">六、小结</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Windows微信消息时间差7小时？元凶是TZ环境变量
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">随机漫步的傻瓜</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-10-08T21:40:00.000Z" class="dt-published" itemprop="datePublished">2026-10-09</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/">技术随笔</a> › <a class="category-link" href="/categories/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/">其他</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C%E8%BF%90%E8%A1%8C%E6%97%B6/" rel="tag">C运行时</a>, <a class="p-category" href="/tags/TZ%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/" rel="tag">TZ环境变量</a>, <a class="p-category" href="/tags/Windows/" rel="tag">Windows</a>, <a class="p-category" href="/tags/%E5%BE%AE%E4%BF%A1/" rel="tag">微信</a>, <a class="p-category" href="/tags/%E6%97%B6%E5%8C%BA/" rel="tag">时区</a>, <a class="p-category" href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" rel="tag">踩坑记录</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>电脑上微信的消息时间比实际<strong>早了 7 小时</strong>，卸载重装客户端完全没用。问题不在微信，也不在系统时区，而在一个人畜无害的系统环境变量 <code>TZ</code>。</p>
+<blockquote>
+<p><strong>一句话结论</strong>：系统里存在 <code>TZ=Asia/Shanghai</code>，这个 IANA 格式的时区名被微信的 C 运行时按 POSIX 规则误解析成了 <strong>UTC+1</strong>，比 UTC+8 早 7 小时。<strong>删掉这个变量即可。</strong></p>
+</blockquote>
+<p>下面是解决方案与完整分析过程（前半部分可直接照做，后半部分是原理与排查方法）。</p>
+<hr>
+<h2 id="一、解决步骤"><a href="#一、解决步骤" class="headerlink" title="一、解决步骤"></a>一、解决步骤</h2><h3 id="步骤-1：确认是不是这个问题"><a href="#步骤-1：确认是不是这个问题" class="headerlink" title="步骤 1：确认是不是这个问题"></a>步骤 1：确认是不是这个问题</h3><p>先看偏移值。如果只是”早 8 小时”，通常是读取脚本没带时区（见文末第六节）；<strong>如果是早 7 小时这类非整数 8 的数字</strong>，基本就是 TZ 变量被误解析。</p>
+<h3 id="步骤-2：检查-TZ-环境变量"><a href="#步骤-2：检查-TZ-环境变量" class="headerlink" title="步骤 2：检查 TZ 环境变量"></a>步骤 2：检查 TZ 环境变量</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">Environment</span>]::GetEnvironmentVariable(<span class="string">&quot;TZ&quot;</span>, <span class="string">&quot;User&quot;</span>)</span><br><span class="line">[<span class="type">Environment</span>]::GetEnvironmentVariable(<span class="string">&quot;TZ&quot;</span>, <span class="string">&quot;Machine&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Windows <strong>默认不会有 <code>TZ</code> 这个变量</strong>。只要这两处有任何一处返回了值（常见的是 <code>Asia/Shanghai</code>），就是它。</p>
+<h3 id="步骤-3：删掉它"><a href="#步骤-3：删掉它" class="headerlink" title="步骤 3：删掉它"></a>步骤 3：删掉它</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">Environment</span>]::SetEnvironmentVariable(<span class="string">&quot;TZ&quot;</span>, <span class="variable">$null</span>, <span class="string">&quot;User&quot;</span>)</span><br><span class="line">[<span class="type">Environment</span>]::SetEnvironmentVariable(<span class="string">&quot;TZ&quot;</span>, <span class="variable">$null</span>, <span class="string">&quot;Machine&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>或者用注册表：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg delete &quot;HKCU\Environment&quot; /v TZ /f</span><br><span class="line">reg delete &quot;HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot; /v TZ /f</span><br></pre></td></tr></table></figure>
+
+<p>Windows 系统时区本来就是正确的 UTC+8，删掉后所有程序回退到系统时区，全部正常。</p>
+<h3 id="步骤-4：重启目标程序"><a href="#步骤-4：重启目标程序" class="headerlink" title="步骤 4：重启目标程序"></a>步骤 4：重启目标程序</h3><p><strong>环境变量只在进程启动时读取。</strong> 已运行的微信进程仍持有旧值，必须退出重新打开。服务类程序需要重启服务，或者注销重登让全局生效。</p>
+<h3 id="步骤-5：验证"><a href="#步骤-5：验证" class="headerlink" title="步骤 5：验证"></a>步骤 5：验证</h3><p>挑一条内容好认的消息，对比微信显示时间与手机端时间。也可以用第四节的最小 C 程序直接验证 CRT 的解析结果。</p>
+<h3 id="⚠️-不要改成-CST-8"><a href="#⚠️-不要改成-CST-8" class="headerlink" title="⚠️ 不要改成 CST-8"></a>⚠️ 不要改成 <code>CST-8</code></h3><p>网上常见的”修正”是把它改成 POSIX 格式 <code>CST-8</code>。这能修好微信，但会<strong>搞坏 Node.js</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TZ=CST-8          -&gt; Thu Oct 08 21:23:46 GMT+0000   ← 错 8 小时</span><br><span class="line">TZ=Asia/Shanghai  -&gt; Fri Oct 09 05:23:47 GMT+0800   ← 正确</span><br><span class="line">TZ 未设置          -&gt; Fri Oct 09 05:23:50 GMT+0800   ← 正确</span><br></pre></td></tr></table></figure>
+
+<p>原因见第五节。<strong>删除才是唯一全绿的解。</strong></p>
+<hr>
+<h2 id="二、根因：IANA-时区名被-C-运行时误解析"><a href="#二、根因：IANA-时区名被-C-运行时误解析" class="headerlink" title="二、根因：IANA 时区名被 C 运行时误解析"></a>二、根因：IANA 时区名被 C 运行时误解析</h2><h3 id="为什么系统时区明明是对的"><a href="#为什么系统时区明明是对的" class="headerlink" title="为什么系统时区明明是对的"></a>为什么系统时区明明是对的</h3><table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tzutil /g</code></td>
+<td>China Standard Time ✅</td>
+</tr>
+<tr>
+<td><code>Get-TimeZone</code></td>
+<td>UTC+8，中国标准时间 ✅</td>
+</tr>
+<tr>
+<td>Python <code>datetime.now()</code></td>
+<td>+08:00 ✅</td>
+</tr>
+<tr>
+<td>系统时间与网络时间对比</td>
+<td>误差 &lt; 5 秒 ✅</td>
+</tr>
+<tr>
+<td><strong>微信客户端显示</strong></td>
+<td><strong>早 7 小时 ❌</strong></td>
+</tr>
+</tbody></table>
+<p>关键在于<strong>不同程序读时区的方式不一样</strong>：</p>
+<ul>
+<li><strong>PowerShell &#x2F; Python &#x2F; Java &#x2F; .NET &#x2F; Go</strong> 在 Windows 上读的是<strong>系统时区 API</strong>，不看 <code>TZ</code></li>
+<li><strong>C&#x2F;C++ 程序</strong>（微信就是）调用 CRT 的 <code>localtime()</code>，而 <code>tzset()</code> 会<strong>优先读 <code>TZ</code> 环境变量</strong></li>
+</ul>
+<h3 id="7-小时是怎么算出来的"><a href="#7-小时是怎么算出来的" class="headerlink" title="7 小时是怎么算出来的"></a>7 小时是怎么算出来的</h3><p>CRT 不认 <code>Asia/Shanghai</code> 这种 IANA 名字，它按 POSIX 规则 <code>std offset dst</code> 去解析：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std = &quot;Asia&quot;      offset = 0（后面没跟数字，默认 0）</span><br><span class="line">dst = &quot;Shanghai&quot;  （被当成夏令时区名）</span><br></pre></td></tr></table></figure>
+
+<p>10 月落在它默认的夏令时区间内 → 夏令时生效 +1 小时 → 得到 <strong>UTC+1</strong> → 比 UTC+8 <strong>早 7 小时</strong>，与现象完全吻合。</p>
+<h3 id="为什么卸载重装无效"><a href="#为什么卸载重装无效" class="headerlink" title="为什么卸载重装无效"></a>为什么卸载重装无效</h3><p>变量存在系统注册表里，压根不在微信安装目录。</p>
+<blockquote>
+<p>附带排除一个常见误判：如果你用 RDP &#x2F; Remmina 远程连接，<strong>客户端时区不会写入 Windows 的 TZ 变量</strong>。RDP 会话级变量只会落在 <code>HKCU\Volatile Environment</code>，而 TZ 在持久项里。实测 RDP 会话的 <code>GetTimeZoneInformation</code> 返回 <code>Bias=-480</code>（UTC+8），本来就是对的——所以不用去改远程客户端那台机器的时区。</p>
+</blockquote>
+<hr>
+<h2 id="三、定位方法（适用于任何”某程序时间不对”）"><a href="#三、定位方法（适用于任何”某程序时间不对”）" class="headerlink" title="三、定位方法（适用于任何”某程序时间不对”）"></a>三、定位方法（适用于任何”某程序时间不对”）</h2><h3 id="1-直接读目标进程的环境变量"><a href="#1-直接读目标进程的环境变量" class="headerlink" title="1. 直接读目标进程的环境变量"></a>1. 直接读目标进程的环境变量</h3><p>PowerShell &#x2F; Python 看不到真相，要看进程实际继承了什么：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> psutil</span><br><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> psutil.process_iter([<span class="string">&quot;pid&quot;</span>, <span class="string">&quot;name&quot;</span>]):</span><br><span class="line">    <span class="keyword">if</span> (p.info[<span class="string">&quot;name&quot;</span>] <span class="keyword">or</span> <span class="string">&quot;&quot;</span>).lower() <span class="keyword">in</span> (<span class="string">&quot;weixin.exe&quot;</span>, <span class="string">&quot;wechatappex.exe&quot;</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="built_in">print</span>(p.info[<span class="string">&quot;pid&quot;</span>], p.info[<span class="string">&quot;name&quot;</span>], <span class="built_in">repr</span>(p.environ().get(<span class="string">&quot;TZ&quot;</span>)))</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(p.info[<span class="string">&quot;pid&quot;</span>], <span class="string">&quot;读取失败&quot;</span>, e)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-用最小-C-程序做对照实验"><a href="#2-用最小-C-程序做对照实验" class="headerlink" title="2. 用最小 C 程序做对照实验"></a>2. 用最小 C 程序做对照实验</h3><p>这才是该程序真正看到的行为（需 MinGW&#x2F;gcc）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    <span class="type">time_t</span> t = <span class="number">1791486782</span>;              <span class="comment">/* UTC 秒;上海时区应为 2026-10-09 03:13:02 */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">tm</span> <span class="title">tmp</span> =</span> *localtime(&amp;t);     <span class="comment">/* 拷贝,避免共用静态缓冲 */</span></span><br><span class="line">    <span class="type">char</span> b[<span class="number">64</span>]; strftime(b, <span class="keyword">sizeof</span> b, <span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, &amp;tmp);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;TZ=%-16s -&gt; %s  _daylight=%d\n&quot;</span>,</span><br><span class="line">        getenv(<span class="string">&quot;TZ&quot;</span>) ? getenv(<span class="string">&quot;TZ&quot;</span>) : <span class="string">&quot;(none)&quot;</span>, b, _daylight);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gcc -O0 -o t.exe t.c</span><br><span class="line">env TZ=&quot;Asia/Shanghai&quot; ./t.exe</span><br><span class="line">env TZ=&quot;CST-8&quot;         ./t.exe</span><br><span class="line">env -u TZ              ./t.exe</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、兼容性矩阵：为什么删除是唯一正解"><a href="#四、兼容性矩阵：为什么删除是唯一正解" class="headerlink" title="四、兼容性矩阵：为什么删除是唯一正解"></a>四、兼容性矩阵：为什么删除是唯一正解</h2><p>Node.js 在 Windows 上<strong>也读 <code>TZ</code>，但它走 ICU，只认 IANA 名字</strong>，解析不了 POSIX 格式就静默回退 UTC。于是出现死结：CRT 要 POSIX，Node 要 IANA，没有哪个值能同时满足。</p>
+<p>本机实测结果：</p>
+<table>
+<thead>
+<tr>
+<th>运行时</th>
+<th><code>TZ=Asia/Shanghai</code></th>
+<th><code>TZ=CST-8</code></th>
+<th>删除 TZ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C&#x2F;C++ CRT（微信）</td>
+<td>❌ UTC+1 早 7h</td>
+<td>✅ +8</td>
+<td>✅ +8</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>✅ +8</td>
+<td>❌ UTC 早 8h</td>
+<td>✅ +8</td>
+</tr>
+<tr>
+<td>Git Bash &#x2F; MSYS</td>
+<td>❌ UTC 早 8h（缺 tzdata）</td>
+<td>✅ +8</td>
+<td>✅ +8</td>
+</tr>
+<tr>
+<td>Java 21</td>
+<td>忽略 TZ，恒 +8</td>
+<td>恒 +8</td>
+<td>恒 +8</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>忽略 TZ，恒 +8</td>
+<td>恒 +8</td>
+<td>恒 +8</td>
+</tr>
+<tr>
+<td>Go（Windows）</td>
+<td>读系统时区，恒 +8</td>
+<td>恒 +8</td>
+<td>恒 +8</td>
+</tr>
+</tbody></table>
+<p>顺带验证过夏令时安全性：删除 TZ 后，冬季（2026-01-15）与夏季（2026-07-15）实测均为 +8 且 <code>_daylight=0</code>，不会误触发夏令时（对照组 <code>TZ=EST5EDT</code> 确实触发了，说明测试有效）。</p>
+<hr>
+<h2 id="五、附：解析微信时间戳的另一个高频坑"><a href="#五、附：解析微信时间戳的另一个高频坑" class="headerlink" title="五、附：解析微信时间戳的另一个高频坑"></a>五、附：解析微信时间戳的另一个高频坑</h2><p>如果你在用脚本解析微信消息的 <code>create_time</code>（秒级 UTC epoch），别用不带时区的 <code>datetime.fromtimestamp(ts)</code>——在 Git Bash &#x2F; WSL 下 <code>TZ</code> 默认 UTC，结果会<strong>早 8 小时</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timezone, timedelta</span><br><span class="line">tz = timezone(timedelta(hours=<span class="number">8</span>))            <span class="comment"># 或 zoneinfo.ZoneInfo(&quot;Asia/Shanghai&quot;)</span></span><br><span class="line"><span class="built_in">print</span>(datetime.fromtimestamp(<span class="number">1791486782</span>, tz))</span><br></pre></td></tr></table></figure>
+
+<p>另外 Windows 版 Python 的 <code>zoneinfo</code> 可能缺时区数据库，<code>ZoneInfo(&quot;Asia/Shanghai&quot;)</code> 会直接报找不到，需要 <code>pip install tzdata</code>。</p>
+<hr>
+<h2 id="六、小结"><a href="#六、小结" class="headerlink" title="六、小结"></a>六、小结</h2><ol>
+<li><strong>Windows 上看到某个 C&#x2F;C++ 程序时间不对，第一件事是查 <code>TZ</code> 环境变量</strong>，而不是查系统时区。</li>
+<li><code>tzutil</code>、PowerShell、Python 显示的时区<strong>不能代表</strong> CRT 程序的行为。</li>
+<li>修复首选**删除 <code>TZ</code>**，而不是填一个”看起来对”的值——IANA 名和 POSIX 格式在 Windows 上各有各的坑。</li>
+<li>修改环境变量后，<strong>必须重启目标程序</strong>；服务类程序需要重启服务。</li>
+</ol>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/categories/">分类</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/timeline/">事件</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Samge0">Github</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%A7%A3%E5%86%B3%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.</span> <span class="toc-text">一、解决步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E7%A1%AE%E8%AE%A4%E6%98%AF%E4%B8%8D%E6%98%AF%E8%BF%99%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">步骤 1：确认是不是这个问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E6%A3%80%E6%9F%A5-TZ-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">步骤 2：检查 TZ 环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%EF%BC%9A%E5%88%A0%E6%8E%89%E5%AE%83"><span class="toc-number">1.3.</span> <span class="toc-text">步骤 3：删掉它</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-4%EF%BC%9A%E9%87%8D%E5%90%AF%E7%9B%AE%E6%A0%87%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.4.</span> <span class="toc-text">步骤 4：重启目标程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-5%EF%BC%9A%E9%AA%8C%E8%AF%81"><span class="toc-number">1.5.</span> <span class="toc-text">步骤 5：验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9A%A0%EF%B8%8F-%E4%B8%8D%E8%A6%81%E6%94%B9%E6%88%90-CST-8"><span class="toc-number">1.6.</span> <span class="toc-text">⚠️ 不要改成 CST-8</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B9%E5%9B%A0%EF%BC%9AIANA-%E6%97%B6%E5%8C%BA%E5%90%8D%E8%A2%AB-C-%E8%BF%90%E8%A1%8C%E6%97%B6%E8%AF%AF%E8%A7%A3%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">二、根因：IANA 时区名被 C 运行时误解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B3%BB%E7%BB%9F%E6%97%B6%E5%8C%BA%E6%98%8E%E6%98%8E%E6%98%AF%E5%AF%B9%E7%9A%84"><span class="toc-number">2.1.</span> <span class="toc-text">为什么系统时区明明是对的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%B0%8F%E6%97%B6%E6%98%AF%E6%80%8E%E4%B9%88%E7%AE%97%E5%87%BA%E6%9D%A5%E7%9A%84"><span class="toc-number">2.2.</span> <span class="toc-text">7 小时是怎么算出来的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8D%B8%E8%BD%BD%E9%87%8D%E8%A3%85%E6%97%A0%E6%95%88"><span class="toc-number">2.3.</span> <span class="toc-text">为什么卸载重装无效</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%AE%9A%E4%BD%8D%E6%96%B9%E6%B3%95%EF%BC%88%E9%80%82%E7%94%A8%E4%BA%8E%E4%BB%BB%E4%BD%95%E2%80%9D%E6%9F%90%E7%A8%8B%E5%BA%8F%E6%97%B6%E9%97%B4%E4%B8%8D%E5%AF%B9%E2%80%9D%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">三、定位方法（适用于任何”某程序时间不对”）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%B4%E6%8E%A5%E8%AF%BB%E7%9B%AE%E6%A0%87%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">3.1.</span> <span class="toc-text">1. 直接读目标进程的环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%94%A8%E6%9C%80%E5%B0%8F-C-%E7%A8%8B%E5%BA%8F%E5%81%9A%E5%AF%B9%E7%85%A7%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.2.</span> <span class="toc-text">2. 用最小 C 程序做对照实验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%85%BC%E5%AE%B9%E6%80%A7%E7%9F%A9%E9%98%B5%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E5%88%A0%E9%99%A4%E6%98%AF%E5%94%AF%E4%B8%80%E6%AD%A3%E8%A7%A3"><span class="toc-number">4.</span> <span class="toc-text">四、兼容性矩阵：为什么删除是唯一正解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%99%84%EF%BC%9A%E8%A7%A3%E6%9E%90%E5%BE%AE%E4%BF%A1%E6%97%B6%E9%97%B4%E6%88%B3%E7%9A%84%E5%8F%A6%E4%B8%80%E4%B8%AA%E9%AB%98%E9%A2%91%E5%9D%91"><span class="toc-number">5.</span> <span class="toc-text">五、附：解析微信时间戳的另一个高频坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%B0%8F%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">六、小结</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&text=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&is_video=false&description=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Windows微信消息时间差7小时？元凶是TZ环境变量&body=Check out this article: https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&title=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&name=Windows微信消息时间差7小时？元凶是TZ环境变量&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.samgeai.com/2026/10/08/%E6%8A%80%E6%9C%AF%E9%9A%8F%E7%AC%94/%E5%85%B6%E4%BB%96/windows-wechat-tz-timezone-7hours/&t=Windows微信消息时间差7小时？元凶是TZ环境变量"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    随机漫步的傻瓜
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/timeline/">事件</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Samge0">Github</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?4196a9020a4dba979eb19815c8ec9924";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'Samge0/samge-blog';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-light';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
